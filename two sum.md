@@ -1,6 +1,6 @@
 ## leetcode east two sum #hash map
 ### 暴力解
-'''[r]
+```{r}
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
@@ -14,4 +14,4 @@ public:
         return {};
     }
 };
-'''
+```
