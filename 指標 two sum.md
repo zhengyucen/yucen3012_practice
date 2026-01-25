@@ -1,7 +1,7 @@
 ## 指標
 ### 指標應用1
 
-'''
+```{r}
 void swap_bad(int x, int y) {
     int temp = x;
     x = y;
