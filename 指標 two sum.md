@@ -8,7 +8,6 @@ void swap_bad(int x, int y) {
     y = temp;
     // 在這裡 x 和 y 確實交換了，但它們只是複製品
 }
-
 int main() {
     int a = 10;
     int b = 20;
