@@ -46,3 +46,13 @@ hashmap用在知道要找目標的名子
 使用上不能用 map["Alice"] == 100 因為如果沒找到 他會創造一個ALICE給0
 要用map.find("Alice") != map.end()
 沒找到會回傳map.end() (邊界牆)
+
+##### 額外知識點
+```{r}
+auto it = myMap.find("Ghost");
+if (it == myMap.end()) {
+cout << "find 沒找到 Ghost" << endl;
+}
+```
+auto > c++ 11 的東西 一定要代數值,能自動判斷數值類型
+it 
