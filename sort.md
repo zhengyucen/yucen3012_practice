@@ -9,8 +9,9 @@
 比較 5 和 8：5 < 8，不換 -> [1, 4, 2, 5, 8]<br/>
 結果：最大的數 8 已經排在最後面了。<br/>
 然後有n個數就跑n次<br/>
-bestcase:O(n)(剛好排好了)<br/>
-Worst Case和Average Case 都是O(n^2)<br/>
-空間複雜:\theta(1)
+bestcase: O(n)(剛好排好了)<br/>
+Worst Case和Average Case 都是 O(n^2)<br/>
+空間複雜: \theta(1)
 ##### 改進辦法(利用flag判斷是否排完,這樣就部會全部都得跑一遍)
+設個flag,每次開始給TURE發生交換>FALSE,沒發生交換就BREAK;
 
