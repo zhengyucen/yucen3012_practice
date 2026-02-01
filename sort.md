@@ -13,5 +13,18 @@ bestcase: O(n)(剛好排好了)<br/>
 Worst Case和Average Case 都是 O(n^2)<br/>
 空間複雜: \theta(1)
 ##### 改進辦法(利用flag判斷是否排完,這樣就部會全部都得跑一遍)
-設個flag,每次開始給TURE發生交換>FALSE,沒發生交換就BREAK;
+設個flag,每次開始給TURE發生交換>FALSE,沒發生交換就BREAK;<br/>
 
+#### 選擇排序法(Selection Sort)
+
+從未排序的陣列中,找到最小的往最前方放形成以排序<br/>
+
+#### 插入排序法(Insertion Sort)
+
+從第二個開始,和前方每個比較,找到適合自己的位置插入<br/>
+
+#### 希爾排序法(Shell Sort)
+
+利用GAP的概念分組做插入排序法,讓小的資料左移<br/>
+如圖示gap:5,2,1<br/>
+<img width="620" height="497" alt="image" src="https://github.com/user-attachments/assets/d1f7e8bd-f2fd-4cb7-a674-1f2f6394d55c" />
