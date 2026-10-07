@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>🇯🇵 日本刷卡與PayPay最佳化推薦</title>
 <style>
 :root{
@@ -16,7 +16,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Noto Sans TC",sans-serif;background:var(--bg);margin:0;color:var(--text);-webkit-font-smoothing:antialiased}
 main{max-width:680px;margin:auto;padding:16px 16px 60px}
 
-/* 頂部合照橫幅 (Banner) */
+/* 頂部合照橫幅 */
 .banner-container{
   width:100%;
   border-radius:18px;
@@ -27,7 +27,6 @@ main{max-width:680px;margin:auto;padding:16px 16px 60px}
   margin-bottom:12px;
   cursor:pointer;
   position:relative;
-  transition:transform .15s;
 }
 .banner-container:active{transform:scale(0.98)}
 .banner-img{
@@ -47,7 +46,6 @@ main{max-width:680px;margin:auto;padding:16px 16px 60px}
   border-radius:20px;
   font-size:12px;
   font-weight:600;
-  letter-spacing:0.5px;
 }
 
 /* 互動氣泡與換台詞按鈕 */
@@ -81,7 +79,6 @@ main{max-width:680px;margin:auto;padding:16px 16px 60px}
   font-weight:600;
   white-space:nowrap;
   cursor:pointer;
-  transition:all .15s;
 }
 .change-talk-btn:active{
   background:#0071e3;
@@ -95,23 +92,42 @@ h1{font-size:22px;margin:6px 0 4px;font-weight:700}
 
 /* 卡片勾選列 */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.check-item{display:flex;align-items:center;gap:8px;background:#f9f9fb;padding:11px 12px;border-radius:10px;font-size:13px;cursor:pointer;border:1.5px solid var(--border);transition:all .15s}
+.check-item{display:flex;align-items:center;gap:8px;background:#f9f9fb;padding:11px 12px;border-radius:10px;font-size:13px;cursor:pointer;border:1.5px solid var(--border)}
 .check-item:has(input:checked){background:#f0f7ff;border-color:var(--primary);font-weight:600}
 .check-item input{width:18px;height:18px;accent-color:var(--primary)}
 
 /* 支付情境切換 */
 .scene-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.scene-btn{display:flex;flex-direction:column;align-items:flex-start;padding:10px 12px;background:#f9f9fb;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .15s}
+.scene-btn{display:flex;flex-direction:column;align-items:flex-start;padding:10px 12px;background:#f9f9fb;border:1.5px solid var(--border);border-radius:12px;cursor:pointer}
 .scene-btn:has(input:checked){background:#fff;border-color:var(--primary);box-shadow:0 0 0 1.5px var(--primary)}
 .scene-btn input{display:none}
 .scene-title{font-size:13.5px;font-weight:700}
 .scene-sub{font-size:11px;color:#86868b;margin-top:2px}
 
-/* 金額輸入 */
-input.text-input{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;background:#fbfbfd;outline:none}
+/* 輸入框與查詢按鈕 */
+input.text-input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;background:#fbfbfd;outline:none}
 input.text-input:focus{border-color:var(--primary);background:#fff}
 
-/* 商店分類按鈕群 (強化點擊命中與高亮) */
+button.main-query-btn{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  font-size:16px;
+  font-weight:700;
+  background:#111;
+  color:#fff;
+  cursor:pointer;
+  margin-top:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.15);
+}
+button.main-query-btn:active{opacity:0.85;transform:scale(0.98)}
+
+/* 商店分類靜態按鈕 */
 .cat-title{font-size:12px;font-weight:700;color:#86868b;margin:12px 0 6px;text-transform:uppercase}
 .btn-grid{display:flex;flex-wrap:wrap;gap:8px}
 button.shop-btn{
@@ -122,9 +138,7 @@ button.shop-btn{
   font-size:13.5px;
   color:#333;
   cursor:pointer;
-  transition:all .12s;
   display:inline-block;
-  user-select:none;
 }
 button.shop-btn.active{
   background:var(--primary)!important;
@@ -135,7 +149,7 @@ button.shop-btn.active{
 }
 button.shop-btn:active{transform:scale(0.95)}
 
-/* 結果輸出 */
+/* 結果卡片 */
 .result-item{padding:14px;border-radius:12px;background:#f9f9fb;margin-top:10px;border:1px solid var(--border);position:relative}
 .result-item.best{background:#f0f7ff;border:2px solid var(--primary)}
 .badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;background:var(--primary);color:white;margin-bottom:6px}
@@ -151,13 +165,13 @@ button.shop-btn:active{transform:scale(0.95)}
 <body>
 <main>
 
-<!-- 頂部合照橫幅 (點擊圖片即可換台詞) -->
+<!-- 頂部合照橫幅 -->
 <div class="banner-container" onclick="nextDialogue()">
   <img class="banner-img" src="team.jpg.JPG" alt="陪伴應援合照" onerror="this.onerror=null;this.src='team.jpg';">
   <div class="banner-tag">點擊換應援台詞 💬</div>
 </div>
 
-<!-- 互動語音氣泡與按鈕 -->
+<!-- 互動語音氣泡 -->
 <div class="speech-box">
   <div class="speech-content" onclick="nextDialogue()">
     <span style="font-size:16px">💬</span>
@@ -167,11 +181,11 @@ button.shop-btn:active{transform:scale(0.95)}
 </div>
 
 <h1>🇯🇵 日本消費回饋最佳化判斷器</h1>
-<div class="desc">不用手動輸入字串，點選商店與消費模式即可即時判定最優卡片！</div>
+<div class="desc">不用手動打字！點選商店、輸入金額後點「查詢」，秒挑最賺卡片！</div>
 
 <!-- 1. 持卡設定 -->
 <div class="card">
-<h3>① 持有信用卡 (可勾選持有的卡)</h3>
+<h3>① 持有信用卡 (勾選你持有的卡)</h3>
 <div class="grid-2">
 <label class="check-item"><input type="checkbox" id="cube" checked onchange="calc()"> 國泰 CUBE 卡</label>
 <label class="check-item"><input type="checkbox" id="kumamon" checked onchange="calc()"> 玉山熊本熊雙幣卡</label>
@@ -207,35 +221,76 @@ button.shop-btn:active{transform:scale(0.95)}
 </div>
 </div>
 
-<!-- 3. 商店按鈕 -->
+<!-- 3. 商店直接點選 (全靜態寫死，絕無不顯示可能) -->
 <div class="card">
 <h3>③ 選擇消費店家 (點擊直接切換)</h3>
 
 <div class="cat-title">🛒 家電量販 / 綜合生活</div>
-<div class="btn-grid" id="cat-appliances"></div>
+<div class="btn-grid">
+  <button type="button" class="shop-btn active" data-id="biccamera" onclick="selectShop('biccamera')">BicCamera</button>
+  <button type="button" class="shop-btn" data-id="yodobashi" onclick="selectShop('yodobashi')">友都八喜 (Yodobashi)</button>
+  <button type="button" class="shop-btn" data-id="edion" onclick="selectShop('edion')">愛電王 (EDION)</button>
+</div>
 
 <div class="cat-title">💊 藥妝連鎖</div>
-<div class="btn-grid" id="cat-drugs"></div>
+<div class="btn-grid">
+  <button type="button" class="shop-btn" data-id="donki" onclick="selectShop('donki')">唐吉訶德 (驚安殿堂)</button>
+  <button type="button" class="shop-btn" data-id="matsumoto" onclick="selectShop('matsumoto')">松本清</button>
+  <button type="button" class="shop-btn" data-id="daikoku" onclick="selectShop('daikoku')">大國藥妝</button>
+  <button type="button" class="shop-btn" data-id="tsuruha" onclick="selectShop('tsuruha')">鶴羽藥妝 (TSURUHA)</button>
+  <button type="button" class="shop-btn" data-id="sugi" onclick="selectShop('sugi')">杉藥局 (SUGI)</button>
+</div>
 
 <div class="cat-title">👕 服飾 / 生活雜貨</div>
-<div class="btn-grid" id="cat-fashion"></div>
+<div class="btn-grid">
+  <button type="button" class="shop-btn" data-id="uniqlo" onclick="selectShop('uniqlo')">UNIQLO</button>
+  <button type="button" class="shop-btn" data-id="gu" onclick="selectShop('gu')">GU</button>
+  <button type="button" class="shop-btn" data-id="muji" onclick="selectShop('muji')">無印良品</button>
+  <button type="button" class="shop-btn" data-id="loft" onclick="selectShop('loft')">Loft</button>
+  <button type="button" class="shop-btn" data-id="three_coins" onclick="selectShop('three_coins')">3COINS</button>
+  <button type="button" class="shop-btn" data-id="abcmart" onclick="selectShop('abcmart')">ABC-MART</button>
+</div>
 
 <div class="cat-title">🎮 潮流 / 動漫模型</div>
-<div class="btn-grid" id="cat-hobby"></div>
+<div class="btn-grid">
+  <button type="button" class="shop-btn" data-id="pokemon" onclick="selectShop('pokemon')">Pokémon Center</button>
+  <button type="button" class="shop-btn" data-id="sanrio" onclick="selectShop('sanrio')">三麗鷗專賣店</button>
+  <button type="button" class="shop-btn" data-id="kiddyland" onclick="selectShop('kiddyland')">Kiddy Land</button>
+  <button type="button" class="shop-btn" data-id="alpen" onclick="selectShop('alpen')">Alpen 運動戶外</button>
+</div>
 
 <div class="cat-title">🍜 連鎖美食 / 餐廳</div>
-<div class="btn-grid" id="cat-food"></div>
+<div class="btn-grid">
+  <button type="button" class="shop-btn" data-id="ichiran" onclick="selectShop('ichiran')">一蘭拉麵</button>
+  <button type="button" class="shop-btn" data-id="sushiro" onclick="selectShop('sushiro')">壽司郎</button>
+  <button type="button" class="shop-btn" data-id="kura" onclick="selectShop('kura')">藏壽司</button>
+  <button type="button" class="shop-btn" data-id="jojoen" onclick="selectShop('jojoen')">敘敘苑燒肉</button>
+  <button type="button" class="shop-btn" data-id="gyukaku" onclick="selectShop('gyukaku')">牛角燒肉</button>
+  <button type="button" class="shop-btn" data-id="toriki" onclick="selectShop('toriki')">鳥貴族</button>
+  <button type="button" class="shop-btn" data-id="matsuya" onclick="selectShop('matsuya')">松屋 / すき家</button>
+</div>
 
 <div class="cat-title">📍 保底一般通路</div>
-<div class="btn-grid" id="cat-default"></div>
+<div class="btn-grid">
+  <button type="button" class="shop-btn" data-id="other" onclick="selectShop('other')">一般店家 / 街邊攤商 (無特店)</button>
+</div>
 
 <div style="margin-top:14px">
   <input id="amount" class="text-input" type="number" placeholder="消費金額 (台幣 NT$，可選填試算現金回饋)" oninput="calc()">
 </div>
+
+<!-- 立即查詢按鈕 -->
+<button type="button" class="main-query-btn" onclick="calc()">
+  <span>🔍</span> 立即計算最佳回饋
+</button>
 </div>
 
-<!-- 4. 結果輸出 -->
-<div id="out"></div>
+<!-- 4. 結果輸出容器 (預設先放載入提示，JS一執行會秒覆蓋) -->
+<div id="out">
+  <div class="card">
+    <div style="text-align:center;padding:20px;color:#888;">正在計算最佳回饋...</div>
+  </div>
+</div>
 
 <div class="card tips">
 <b>💡 2026 日本旅遊刷卡備忘：</b><br>
@@ -245,34 +300,24 @@ button.shop-btn:active{transform:scale(0.95)}
 </main>
 
 <script>
-// 海量去識別化專屬應援台詞庫
+// 應援台詞庫
 const allDialogues = [
-  // 雪乃
   "雪乃：「出國消費請務必確認回饋上限與請款規則，不要大意了喔。」",
   "雪乃：「大額採購家電時要特別提防加碼封頂問題。若是高單價，無上限的卡片反而是最理性的歸宿。」",
   "雪乃：「……就算一直盯著我們的照片看，也不代表你可以把旅費預算全部拿去買熊貓玩偶喔？」",
   "雪乃：「這點程度的邏輯運算交給我即可，你只要專心挑選想買的東西就行了。」",
   "雪乃：「既然要刷卡，就要追求最高效益。浪費回饋這種事……我是不允許的。」",
   "雪乃：「排隊退稅時記得把護照準備好，慌慌張張的樣子可不好看呢。」",
-  "雪乃：「……雖然我平時不怎麼逛這些地方，但如果是一起去逛的話，倒也不是不能陪你。」",
-
-  // 結衣
   "結衣：「買完東西記得順便去吃草莓大福～！啊哈哈，刷對卡省下來的錢剛好買甜點！」",
   "結衣：「藥妝店排隊好長喔～還好用按鈕點一下就知道刷哪張，超厲害的！」",
   "結衣：「小雪乃和小彩羽都在看著呢～今天在日本也要開開心心玩喔！」",
   "結衣：「啊！這件衣服感覺很適合你耶！要不要先看看這家店哪張卡回饋比較高？」",
   "結衣：「走累了嗎？要不要找一間有回饋的咖啡廳坐下來休息一下呢～？」",
-  "結衣：「啊哈哈，買這麼多伴手禮，行李箱塞得下嗎？要好好算一下重量喔！」",
-  "結衣：「能幫上你的忙真是太好了～！我們三個人都會一直陪著你的喔！」",
-
-  // 彩羽
   "彩羽：「呼呼～前輩，替我買 Pokémon Center 的伴手禮時，可要記得挑回饋最高的那張刷喔？」",
   "彩羽：「大額直刷點下去了嗎？明明答應要請我吃敘敘苑的……啊啦，難道想裝傻賴掉嗎？」",
   "彩羽：「一直戳我們的照片……前輩該不會是對我們抱有什麼奇奇怪怪的非分之想吧？真是拿你沒辦法呢～」",
   "彩羽：「啊啦，連這種小店都能用 PayPay 掃碼呀？真不愧是前輩，準備得真周全呢♪」",
-  "彩羽：「前輩前輩～幫我看看三麗鷗專賣店哪張卡最划算好不好？……我可沒有在跟前輩撒嬌喔？」",
-  "彩羽：「看在前輩這麼努力比價的份上，回去之後我就特別允許你請我喝一杯奶茶吧～」",
-  "彩羽：「呼呼，就算在異國街頭迷路也沒關係，只要看著我們，心情就會好起來了吧？」"
+  "彩羽：「看在前輩這麼努力比價的份上，回去之後我就特別允許你請我喝一杯奶茶吧～」"
 ];
 
 let curIdx = 0;
@@ -285,68 +330,43 @@ function nextDialogue() {
   document.getElementById("speech-text").innerText = allDialogues[curIdx];
 }
 
-// 商店資料庫 (ID 完全純英文避免任何字串衝突)
-const shopData = [
-  // 家電
-  { id: "biccamera", name: "BicCamera", cat: "appliances", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "yodobashi", name: "友都八喜 (Yodobashi)", cat: "appliances", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "edion", name: "愛電王 (EDION)", cat: "appliances", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  // 藥妝綜合
-  { id: "donki", name: "唐吉訶德 (驚安殿堂)", cat: "drugs", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "matsumoto", name: "松本清", cat: "drugs", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "daikoku", name: "大國藥妝", cat: "drugs", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "tsuruha", name: "鶴羽藥妝 (TSURUHA)", cat: "drugs", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "sugi", name: "杉藥局 (SUGI)", cat: "drugs", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  // 服飾雜貨
-  { id: "uniqlo", name: "UNIQLO", cat: "fashion", cube: 5.0, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "gu", name: "GU", cat: "fashion", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "muji", name: "無印良品", cat: "fashion", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "loft", name: "Loft", cat: "fashion", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  { id: "three_coins", name: "3COINS", cat: "fashion", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  { id: "abcmart", name: "ABC-MART", cat: "fashion", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  // 潮流動漫
-  { id: "pokemon", name: "Pokémon Center", cat: "hobby", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  { id: "sanrio", name: "三麗鷗專賣店", cat: "hobby", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  { id: "kiddyland", name: "Kiddy Land", cat: "hobby", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  { id: "alpen", name: "Alpen 運動戶外", cat: "hobby", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  // 美食餐飲
-  { id: "ichiran", name: "一蘭拉麵", cat: "food", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "sushiro", name: "壽司郎", cat: "food", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "kura", name: "藏壽司", cat: "food", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "jojoen", name: "敘敘苑燒肉", cat: "food", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "gyukaku", name: "牛角燒肉", cat: "food", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "toriki", name: "鳥貴族", cat: "food", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  { id: "matsuya", name: "松屋 / すき家", cat: "food", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  // 一般保底
-  { id: "other", name: "一般店家 / 街邊攤商 (無特店)", cat: "default", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 }
-];
+// 商店比價資料庫
+const shopMap = {
+  biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  yodobashi: { name: "友都八喜 (Yodobashi)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  edion: { name: "愛電王 (EDION)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  donki: { name: "唐吉訶德 (驚安殿堂)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  matsumoto: { name: "松本清", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  daikoku: { name: "大國藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  tsuruha: { name: "鶴羽藥妝 (TSURUHA)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  sugi: { name: "杉藥局 (SUGI)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  uniqlo: { name: "UNIQLO", cube: 5.0, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  gu: { name: "GU", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  muji: { name: "無印良品", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  loft: { name: "Loft", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  three_coins: { name: "3COINS", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  abcmart: { name: "ABC-MART", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  pokemon: { name: "Pokémon Center", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  sanrio: { name: "三麗鷗專賣店", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  kiddyland: { name: "Kiddy Land", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  alpen: { name: "Alpen 運動戶外", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
+  ichiran: { name: "一蘭拉麵", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  sushiro: { name: "壽司郎", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  kura: { name: "藏壽司", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  jojoen: { name: "敘敘苑燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  gyukaku: { name: "牛角燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  toriki: { name: "鳥貴族", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  matsuya: { name: "松屋 / すき家", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
+  other: { name: "一般店家 / 街邊攤商 (無特店)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 }
+};
 
-let selectedShopId = "biccamera";
-
-function initButtons() {
-  shopData.forEach(shop => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = `shop-btn ${shop.id === selectedShopId ? 'active' : ''}`;
-    btn.setAttribute("data-id", shop.id);
-    btn.innerText = shop.name;
-    
-    // 綁定原生 click 與 touch，並停止冒泡
-    btn.addEventListener("click", function(e) {
-      e.preventDefault();
-      selectShop(shop.id);
-    });
-
-    const container = document.getElementById(`cat-${shop.cat}`);
-    if(container) container.appendChild(btn);
-  });
-}
+let currentShopId = "biccamera";
 
 function selectShop(id) {
-  selectedShopId = id;
-  // 更新 active 樣式
-  const allBtns = document.querySelectorAll(".shop-btn");
-  allBtns.forEach(b => {
+  currentShopId = id;
+  // 切換按鈕樣式
+  const btns = document.querySelectorAll(".shop-btn");
+  btns.forEach(b => {
     if(b.getAttribute("data-id") === id) {
       b.classList.add("active");
     } else {
@@ -357,14 +377,17 @@ function selectShop(id) {
 }
 
 function calc() {
-  const shop = shopData.find(s => s.id === selectedShopId) || shopData[0];
-  const scene = document.querySelector('input[name="scene"]:checked').value;
-  const amount = parseFloat(document.getElementById("amount").value) || 0;
-  
+  const shop = shopMap[currentShopId] || shopMap.biccamera;
+  const sceneEl = document.querySelector('input[name="scene"]:checked');
+  const scene = sceneEl ? sceneEl.value : "direct_normal";
+  const amountEl = document.getElementById("amount");
+  const amount = (amountEl && parseFloat(amountEl.value)) ? parseFloat(amountEl.value) : 0;
+
   let list = [];
 
   // 1. 國泰 CUBE 卡
-  if(document.getElementById("cube").checked){
+  const cubeChecked = document.getElementById("cube") ? document.getElementById("cube").checked : false;
+  if(cubeChecked){
     let rate = shop.cube, note = "日本賞權益/切換即時生效，回饋無上限";
     if(scene.startsWith("paypay")){
       rate = 0;
@@ -376,7 +399,8 @@ function calc() {
   }
 
   // 2. 玉山熊本熊卡
-  if(document.getElementById("kumamon").checked){
+  const kumaChecked = document.getElementById("kumamon") ? document.getElementById("kumamon").checked : false;
+  if(kumaChecked){
     let rate = shop.kumamon, note = "免 1.5% 交易手續費 + 指定通路加碼";
     if(scene === "direct_large"){
       rate = 2.5;
@@ -392,7 +416,8 @@ function calc() {
   }
 
   // 3. 台新 Richart / 玫瑰卡
-  if(document.getElementById("richart").checked){
+  const richartChecked = document.getElementById("richart") ? document.getElementById("richart").checked : false;
+  if(richartChecked){
     let rate = shop.richart, note = "海外日韓指定方案 3.8% 台新 Point 回饋無上限";
     if(scene === "paypay_normal"){
       rate = 4.5;
@@ -408,7 +433,8 @@ function calc() {
   }
 
   // 4. 富邦 J 卡
-  if(document.getElementById("jfubon").checked){
+  const jfubonChecked = document.getElementById("jfubon") ? document.getElementById("jfubon").checked : false;
+  if(jfubonChecked){
     let rate = shop.jfubon, note = "日本實體一般消費最高 3% (需注意登錄或門檻)[span_0](start_span)"[span_0](end_span);
     if(scene.startsWith("paypay")){
       rate = 0;
@@ -421,14 +447,17 @@ function calc() {
   }
 
   const out = document.getElementById("out");
+  if(!out) return;
+
   if(list.length === 0){
     out.innerHTML = '<div class="card warn">⚠️ 請至少勾選上方一張持有的信用卡！</div>';
     return;
   }
 
+  // 排序高到低
   list.sort((a,b) => b.rate - a.rate);
 
-  let html = `<div class="card"><h3>🎯 最佳推薦：${shop.name}</h3>`;
+  let html = `<div class="card"><h3 style="margin-bottom:12px">🎯 「${shop.name}」最佳推薦排行</h3>`;
   list.forEach((item, idx) => {
     const isBest = idx === 0 && item.rate > 0;
     const money = amount ? (amount * item.rate / 100).toFixed(0) : 0;
@@ -449,11 +478,8 @@ function calc() {
   out.innerHTML = html;
 }
 
-// 頁面加載完成時初始化
-window.addEventListener("DOMContentLoaded", () => {
-  initButtons();
-  calc();
-});
+// 核心改動：直接在最後一行無條件立即執行！不等待任何事件！
+calc();
 </script>
 </body>
 </html>
