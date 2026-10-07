@@ -26,7 +26,7 @@ h3{font-size:15px;margin:0 0 10px;font-weight:600}
 .scene-sub{font-size:11px;color:#888;margin-top:2px}
 .cat-title{font-size:11.5px;font-weight:700;color:#888;margin:12px 0 6px}
 .btn-grid{display:flex;flex-wrap:wrap;gap:6px}
-.shop-btn{border:1px solid var(--border);background:#f9f9fb;border-radius:16px;padding:8px 12px;font-size:13px;cursor:pointer}
+.shop-btn{border:1px solid var(--border);background:#f9f9fb;border-radius:16px;padding:8px 12px;font-size:13px;cursor:pointer;-webkit-appearance:none}
 .shop-btn.active{background:var(--primary)!important;color:#fff!important;border-color:var(--primary)!important;font-weight:700}
 input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:15px;margin-top:12px;outline:none}
 .main-btn{width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:700;background:#111;color:#fff;cursor:pointer;margin-top:12px}
@@ -35,30 +35,32 @@ input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:1
 .badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700;background:var(--primary);color:#fff;margin-bottom:4px}
 .res-top{display:flex;justify-content:space-between;align-items:baseline}
 .rate{font-size:22px;font-weight:800;color:var(--primary)}
-.tips{font-size:12px;color:#666;margin-top:4px}
+.res-money{font-size:14px;font-weight:700;color:#2c3e50;margin-top:4px}
+.tips{font-size:12px;color:#666;margin-top:4px;line-height:1.45}
+.cap-warn{display:inline-block;font-size:11px;color:#d9534f;font-weight:700;margin-top:2px}
 .warn{background:#fff8e6;border:1px solid #ffe199;color:#7a5800;padding:12px;border-radius:10px;font-size:13px}
 </style>
 </head>
 <body>
 <main>
 
-<div class="banner" onclick="nextDialogue()">
+<div class="banner" id="bannerBtn">
   <img src="team.jpg.JPG" alt="陪伴合照" onerror="this.onerror=null;this.src='team.jpg';">
   <div class="tag">點擊換台詞 💬</div>
 </div>
 
 <div class="bubble">
-  <span id="speech-text">雪乃：「富邦 J 卡在實體店家單筆滿千登錄享最高 6%，大額消費則請留意封頂門檻。」</span>
-  <button type="button" class="talk-btn" onclick="nextDialogue()">換一句</button>
+  <span id="speech-text">雪乃：「日本所有實體商家富邦 J 卡登錄皆享 6%，但務必留意單季 1,000 元上限喔。」</span>
+  <button type="button" class="talk-btn" id="talkBtn">換一句</button>
 </div>
 
 <div class="card">
   <h3>① 我持有的信用卡</h3>
   <div class="grid2">
-    <label class="check-item"><input type="checkbox" id="cube" checked onchange="calc()"> 國泰 CUBE 卡</label>
-    <label class="check-item"><input type="checkbox" id="kumamon" checked onchange="calc()"> 玉山熊本熊雙幣卡</label>
-    <label class="check-item"><input type="checkbox" id="richart" checked onchange="calc()"> 台新 Richart / 玫瑰</label>
-    <label class="check-item"><input type="checkbox" id="jfubon" checked onchange="calc()"> 富邦 J 卡</label>
+    <label class="check-item"><input type="checkbox" id="cube" checked> 國泰 CUBE 卡</label>
+    <label class="check-item"><input type="checkbox" id="kumamon" checked> 玉山熊本熊雙幣卡</label>
+    <label class="check-item"><input type="checkbox" id="richart" checked> 台新 Richart / 玫瑰</label>
+    <label class="check-item"><input type="checkbox" id="jfubon" checked> 富邦 J 卡</label>
   </div>
 </div>
 
@@ -66,123 +68,36 @@ input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:1
   <h3>② 支付情境</h3>
   <div class="grid2">
     <label class="scene-btn">
-      <input type="radio" name="scene" value="direct_normal" checked onchange="calc()">
+      <input type="radio" name="scene" value="direct_normal" checked>
       <span class="scene-title">💳 一般直刷</span>
       <span class="scene-sub">實體感應 / 中低額</span>
     </label>
     <label class="scene-btn">
-      <input type="radio" name="scene" value="direct_large" onchange="calc()">
+      <input type="radio" name="scene" value="direct_large">
       <span class="scene-title">🛍️ 大額直刷</span>
       <span class="scene-sub">電器高單價 / 防封頂</span>
     </label>
     <label class="scene-btn">
-      <input type="radio" name="scene" value="paypay_normal" onchange="calc()">
+      <input type="radio" name="scene" value="paypay_normal">
       <span class="scene-title">📱 一般 PayPay</span>
       <span class="scene-sub">小店掃碼 / 玉山・街口</span>
     </label>
     <label class="scene-btn">
-      <input type="radio" name="scene" value="paypay_large" onchange="calc()">
+      <input type="radio" name="scene" value="paypay_large">
       <span class="scene-title">💎 大額 PayPay</span>
       <span class="scene-sub">防點數上限溢出</span>
     </label>
   </div>
 </div>
 
-<div class="card">
+<div class="card" id="shopCard">
   <h3>③ 選擇店家 (點擊直接切換)</h3>
 
-  <div class="cat-title">🚇 交通卡專區 (富邦 J 卡 10%)</div>
+  <div class="cat-title">🚇 交通卡專區</div>
   <div class="btn-grid">
-    <button type="button" class="shop-btn" id="btn-suica" onclick="pick('suica')">Suica / PASMO 加值 (富邦J 10%)</button>
+    <button type="button" class="shop-btn" data-key="suica">Suica / PASMO 加值 (富邦J 10%)</button>
   </div>
 
-  <div class="cat-title">🛒 家電量販 (富邦J實體6% / 熊本熊8.5%)</div>
+  <div class="cat-title">🛒 家電量販 (實體富邦J 6% / 熊 8.5%)</div>
   <div class="btn-grid">
-    <button type="button" class="shop-btn active" id="btn-biccamera" onclick="pick('biccamera')">BicCamera</button>
-    <button type="button" class="shop-btn" id="btn-yodobashi" onclick="pick('yodobashi')">友都八喜</button>
-    <button type="button" class="shop-btn" id="btn-edion" onclick="pick('edion')">愛電王</button>
-  </div>
-
-  <div class="cat-title">💊 藥妝與生活連鎖</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" id="btn-matsumoto" onclick="pick('matsumoto')">松本清</button>
-    <button type="button" class="shop-btn" id="btn-daikoku" onclick="pick('daikoku')">大國藥妝</button>
-    <button type="button" class="shop-btn" id="btn-tsuruha" onclick="pick('tsuruha')">鶴羽藥妝</button>
-    <button type="button" class="shop-btn" id="btn-donki" onclick="pick('donki')">唐吉訶德</button>
-    <button type="button" class="shop-btn" id="btn-conveni" onclick="pick('conveni')">三大便利超商</button>
-    <button type="button" class="shop-btn" id="btn-sugi" onclick="pick('sugi')">杉藥局</button>
-  </div>
-
-  <div class="cat-title">👕 服飾生活雜貨</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" id="btn-uniqlo" onclick="pick('uniqlo')">UNIQLO</button>
-    <button type="button" class="shop-btn" id="btn-gu" onclick="pick('gu')">GU</button>
-    <button type="button" class="shop-btn" id="btn-muji" onclick="pick('muji')">無印良品</button>
-    <button type="button" class="shop-btn" id="btn-loft" onclick="pick('loft')">Loft</button>
-    <button type="button" class="shop-btn" id="btn-abcmart" onclick="pick('abcmart')">ABC-MART</button>
-  </div>
-
-  <div class="cat-title">🎮 潮流與動漫周邊</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" id="btn-pokemon" onclick="pick('pokemon')">Pokémon Center</button>
-    <button type="button" class="shop-btn" id="btn-sanrio" onclick="pick('sanrio')">三麗鷗專賣店</button>
-    <button type="button" class="shop-btn" id="btn-kiddyland" onclick="pick('kiddyland')">Kiddy Land</button>
-  </div>
-
-  <div class="cat-title">🍜 連鎖美食餐廳</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" id="btn-ichiran" onclick="pick('ichiran')">一蘭拉麵</button>
-    <button type="button" class="shop-btn" id="btn-sushiro" onclick="pick('sushiro')">壽司郎</button>
-    <button type="button" class="shop-btn" id="btn-jojoen" onclick="pick('jojoen')">敘敘苑燒肉</button>
-    <button type="button" class="shop-btn" id="btn-matsuya" onclick="pick('matsuya')">松屋 / すき家</button>
-  </div>
-
-  <div class="cat-title">📍 一般路邊小店 / 攤商</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" id="btn-other" onclick="pick('other')">一般店家 (無特定加碼)</button>
-  </div>
-
-  <input id="amount" class="amt" type="number" placeholder="消費金額 (台幣 NT$，可不填)" oninput="calc()">
-  <button type="button" class="main-btn" onclick="calc()">🔍 立即計算最佳回饋</button>
-</div>
-
-<div id="out"></div>
-
-</main>
-
-<script>
-var dialogues = [
-  "雪乃：「富邦 J 卡在實體店家單筆滿千登錄享最高 6%，大額消費則請留意封頂門檻。」",
-  "雪乃：「出國消費請務必確認回饋上限與請款規則，不要大意了喔。」",
-  "結衣：「哇！單筆買滿一千塊台幣就有 6% 耶！買藥妝和伴手禮隨便湊都有～！」",
-  "結衣：「西瓜卡加值 10% 也是神仙級優惠！坐車買飲料刷手機超方便的！」",
-  "彩羽：「呼呼～前輩，替我買伴手禮的時候，挑回饋最高的那張刷就對啦♪」",
-  "彩羽：「看到 6% 或 10% 可別高興得太早喔？加碼額度要是刷爆了，我可是會笑前輩的喔～」"
-];
-
-var curTalk = 0;
-function nextDialogue() {
-  curTalk = (curTalk + 1) % dialogues.length;
-  document.getElementById("speech-text").innerText = dialogues[curTalk];
-}
-
-var shops = {
-  suica: { name: "Suica / PASMO 交通卡加值", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon_normal: 10.0, jfubon_note: "Apple Pay 儲值滿額享最高 10% (需登錄/有上限)" },
-  biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  yodobashi: { name: "友都八喜", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  edion: { name: "愛電王", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  matsumoto: { name: "松本清", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  daikoku: { name: "大國藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  tsuruha: { name: "鶴羽藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  donki: { name: "唐吉訶德", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  conveni: { name: "三大便利超商", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (未滿千則為一般消費3%)" },
-  sugi: { name: "杉藥局", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  uniqlo: { name: "UNIQLO", cube: 5.0, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  gu: { name: "GU", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  muji: { name: "無印良品", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  loft: { name: "Loft", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  abcmart: { name: "ABC-MART", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  pokemon: { name: "Pokémon Center", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  sanrio: { name: "三麗鷗專賣店", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  kiddyland: { name: "Kiddy Land", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本+3%加碼每季上限1000)" },
-  ichiran: { name: "一蘭拉麵", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon_normal: 6.0, jfubon_note: "實體單筆滿千登錄最高 6% (3%基本
+    <button type="button" class="
