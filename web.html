@@ -166,7 +166,7 @@ button.shop-btn:active{transform:scale(0.95)}
 <body>
 <main>
 
-<!-- 頂部合照橫幅 -->
+<!-- 頂部合照橫幅 (點擊切換台詞) -->
 <div class="banner-container" onclick="nextDialogue()">
   <img class="banner-img" src="team.jpg.JPG" alt="陪伴應援合照" onerror="this.onerror=null;this.src='team.jpg';">
   <div class="banner-tag">點擊換應援台詞 💬</div>
@@ -327,7 +327,7 @@ function nextDialogue() {
   document.getElementById("speech-text").innerText = allDialogues[curIdx];
 }
 
-// 商店資料表
+// 商店比價資料表
 const shopMap = {
   biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
   yodobashi: { name: "友都八喜 (Yodobashi)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
@@ -360,123 +360,142 @@ const shopMap = {
 let currentShopId = "biccamera";
 
 // 點選店家切換高亮並重算
-window.selectShop = function(id) {
-  currentShopId = id;
-  const btns = document.querySelectorAll(".shop-btn");
-  btns.forEach(b => {
-    if(b.getAttribute("data-id") === id) {
-      b.classList.add("active");
-    } else {
-      b.classList.remove("active");
-    }
-  });
-  window.runCalculation();
-};
-
-// 運算核心 (綁定至 window 避免衝突)
-window.runCalculation = function() {
-  const shop = shopMap[currentShopId] || shopMap.biccamera;
-  const sceneEl = document.querySelector('input[name="scene"]:checked');
-  const scene = sceneEl ? sceneEl.value : "direct_normal";
-  const amountEl = document.getElementById("amount");
-  const amount = (amountEl && parseFloat(amountEl.value)) ? parseFloat(amountEl.value) : 0;
-
-  let list = [];
-
-  // 1. 國泰 CUBE
-  const cubeEl = document.getElementById("cube");
-  if(cubeEl && cubeEl.checked){
-    let rate = shop.cube, note = "日本賞權益/切換即時生效，回饋無上限";
-    if(scene.startsWith("paypay")){
-      rate = 0;
-      note = "不支援日本 PayPay 條碼優惠 (此情境不推薦)";
-    } else if(scene === "direct_large"){
-      note = "小樹點回饋無上限，高單價商品首選保證入帳";
-    }
-    list.push({ name: "國泰 CUBE 卡", rate, note });
+function selectShop(id) {
+  try {
+    currentShopId = id;
+    const btns = document.querySelectorAll(".shop-btn");
+    btns.forEach(b => {
+      if(b.getAttribute("data-id") === id) {
+        b.classList.add("active");
+      } else {
+        b.classList.remove("active");
+      }
+    });
+    runCalculation();
+  } catch(e) {
+    console.error("selectShop error:", e);
   }
+}
 
-  // 2. 玉山熊本熊
-  const kumaEl = document.getElementById("kumamon");
-  if(kumaEl && kumaEl.checked){
-    let rate = shop.kumamon, note = "免 1.5% 交易手續費 + 指定通路加碼";
-    if(scene === "direct_large"){
-      rate = 2.5;
-      note = "加碼回饋上限易滿(通常NT$300~500)，大額溢出部分以基本 2.5% 計算";
-    } else if(scene === "paypay_normal"){
-      rate = 6.5;
-      note = "玉山 Wallet App 綁定掃 PayPay，免 1.5% 手續費並享專屬高額加碼";
-    } else if(scene === "paypay_large"){
-      rate = 2.5;
-      note = "PayPay 活動加碼額度封頂後降為 2.5% 基本雙幣回饋";
+// 運算核心
+function runCalculation() {
+  try {
+    const shop = shopMap[currentShopId] || shopMap.biccamera;
+    const sceneEl = document.querySelector('input[name="scene"]:checked');
+    const scene = sceneEl ? sceneEl.value : "direct_normal";
+    const amountEl = document.getElementById("amount");
+    const amount = (amountEl && parseFloat(amountEl.value)) ? parseFloat(amountEl.value) : 0;
+
+    let list = [];
+
+    // 1. 國泰 CUBE
+    const cubeEl = document.getElementById("cube");
+    if(cubeEl && cubeEl.checked){
+      let rate = shop.cube;
+      let note = "日本賞權益/切換即時生效，回饋無上限";
+      if(scene.startsWith("paypay")){
+        rate = 0;
+        note = "不支援日本 PayPay 條碼優惠 (此情境不推薦)";
+      } else if(scene === "direct_large"){
+        note = "小樹點回饋無上限，高單價商品首選保證入帳";
+      }
+      list.push({ name: "國泰 CUBE 卡", rate: rate, note: note });
     }
-    list.push({ name: "玉山熊本熊雙幣卡", rate, note });
-  }
 
-  // 3. 台新 Richart / 玫瑰
-  const richartEl = document.getElementById("richart");
-  if(richartEl && richartEl.checked){
-    let rate = shop.richart, note = "海外日韓指定方案 3.8% 台新 Point 回饋無上限";
-    if(scene === "paypay_normal"){
-      rate = 4.5;
-      note = "透過街口支付綁定 Richart / 玫瑰卡掃 PayPay，免 1.5% 海外手續費";
-    } else if(scene === "paypay_large"){
-      rate = 2.0;
-      note = "街口電支跨境條碼有單筆/每月點數回饋上限，高額建議切換為無上限直刷";
-    } else if(scene === "direct_large"){
-      rate = 3.8;
-      note = "大筆刷方案 3.8% 無上限，大額採購電器最省心首選";
+    // 2. 玉山熊本熊
+    const kumaEl = document.getElementById("kumamon");
+    if(kumaEl && kumaEl.checked){
+      let rate = shop.kumamon;
+      let note = "免 1.5% 交易手續費 + 指定通路加碼";
+      if(scene === "direct_large"){
+        rate = 2.5;
+        note = "加碼回饋上限易滿(通常NT$300~500)，大額溢出部分以基本 2.5% 計算";
+      } else if(scene === "paypay_normal"){
+        rate = 6.5;
+        note = "玉山 Wallet App 綁定掃 PayPay，免 1.5% 手續費並享專屬高額加碼";
+      } else if(scene === "paypay_large"){
+        rate = 2.5;
+        note = "PayPay 活動加碼額度封頂後降為 2.5% 基本雙幣回饋";
+      }
+      list.push({ name: "玉山熊本熊雙幣卡", rate: rate, note: note });
     }
-    list.push({ name: "台新 Richart / 玫瑰卡", rate, note });
-  }
 
-  // 4. 富邦 J 卡
-  const jfubonEl = document.getElementById("jfubon");
-  if(jfubonEl && jfubonEl.checked){
-    let rate = shop.jfubon, note = "日本實體一般消費最高 3% (需注意登錄或門檻)[span_0](start_span)"[span_0](end_span);
-    if(scene.startsWith("paypay")){
-      rate = 0;
-      note = "主要以 JCB 實體過卡感應為主，無直接整合之 PayPay 條碼回饋";
-    } else if(scene === "direct_large"){
-      rate = 3.0;
-      note = "高額請留意加碼活動之回饋上限限制";
+    // 3. 台新 Richart / 玫瑰
+    const richartEl = document.getElementById("richart");
+    if(richartEl && richartEl.checked){
+      let rate = shop.richart;
+      let note = "海外日韓指定方案 3.8% 台新 Point 回饋無上限";
+      if(scene === "paypay_normal"){
+        rate = 4.5;
+        note = "透過街口支付綁定 Richart / 玫瑰卡掃 PayPay，免 1.5% 海外手續費";
+      } else if(scene === "paypay_large"){
+        rate = 2.0;
+        note = "街口電支跨境條碼有單筆/每月點數回饋上限，高額建議切換為無上限直刷";
+      } else if(scene === "direct_large"){
+        rate = 3.8;
+        note = "大筆刷方案 3.8% 無上限，大額採購電器最省心首選";
+      }
+      list.push({ name: "台新 Richart / 玫瑰卡", rate: rate, note: note });
     }
-    list.push({ name: "富邦 J 卡", rate, note });
-  }
 
-  const out = document.getElementById("out");
-  if(!out) return;
+    // 4. 富邦 J 卡
+    const jfubonEl = document.getElementById("jfubon");
+    if(jfubonEl && jfubonEl.checked){
+      let rate = shop.jfubon;
+      let note = "日本實體一般消費最高 3% (需注意登錄或門檻)";
+      if(scene.startsWith("paypay")){
+        rate = 0;
+        note = "主要以 JCB 實體過卡感應為主，無直接整合之 PayPay 條碼回饋";
+      } else if(scene === "direct_large"){
+        rate = 3.0;
+        note = "高額請留意加碼活動之回饋上限限制";
+      }
+      list.push({ name: "富邦 J 卡", rate: rate, note: note });
+    }
 
-  if(list.length === 0){
-    out.innerHTML = '<div class="card warn">⚠️ 請至少勾選上方一張持有的信用卡！</div>';
-    return;
-  }
+    const out = document.getElementById("out");
+    if(!out) return;
 
-  list.sort((a,b) => b.rate - a.rate);
+    if(list.length === 0){
+      out.innerHTML = '<div class="card warn">⚠️ 請至少勾選上方一張持有的信用卡！</div>';
+      return;
+    }
 
-  let html = `<div class="card"><h3 style="margin-bottom:12px">🎯 「${shop.name}」最佳推薦排行</h3>`;
-  list.forEach((item, idx) => {
-    const isBest = idx === 0 && item.rate > 0;
-    const money = amount ? (amount * item.rate / 100).toFixed(0) : 0;
-    
-    html += `
-      <div class="result-item ${isBest ? 'best' : ''}">
-        ${isBest ? '<span class="badge">🏆 最佳首選</span>' : ''}
-        <div class="res-header">
-          <span class="res-name">${item.name}</span>
-          <span class="res-rate">${item.rate > 0 ? item.rate + '%' : '不適用'}</span>
+    list.sort((a,b) => b.rate - a.rate);
+
+    let html = `<div class="card"><h3 style="margin-bottom:12px">🎯 「${shop.name}」最佳推薦排行</h3>`;
+    list.forEach((item, idx) => {
+      const isBest = idx === 0 && item.rate > 0;
+      const money = amount ? (amount * item.rate / 100).toFixed(0) : 0;
+      
+      html += `
+        <div class="result-item ${isBest ? 'best' : ''}">
+          ${isBest ? '<span class="badge">🏆 最佳首選</span>' : ''}
+          <div class="res-header">
+            <span class="res-name">${item.name}</span>
+            <span class="res-rate">${item.rate > 0 ? item.rate + '%' : '不適用'}</span>
+          </div>
+          ${amount && item.rate > 0 ? `<div class="res-money">預估可拿約 NT$ ${money} 回饋</div>` : ''}
+          <div class="res-detail">${item.note}</div>
         </div>
-        ${amount && item.rate > 0 ? `<div class="res-money">預估可拿約 NT$ ${money} 回饋</div>` : ''}
-        <div class="res-detail">${item.note}</div>
-      </div>
-    `;
-  });
-  html += `</div>`;
-  out.innerHTML = html;
-};
+      `;
+    });
+    html += `</div>`;
+    out.innerHTML = html;
+  } catch(e) {
+    console.error("runCalculation error:", e);
+    const out = document.getElementById("out");
+    if(out) out.innerHTML = `<div class="card warn">運算時發生異常：${e.message}</div>`;
+  }
+}
+
+// 註冊至全域確保 HTML onclick 絕對找得到
+window.selectShop = selectShop;
+window.runCalculation = runCalculation;
+window.nextDialogue = nextDialogue;
 
 // 初始立即運算
-window.runCalculation();
+runCalculation();
 </script>
 </body>
 </html>
