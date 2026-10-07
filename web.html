@@ -166,7 +166,7 @@ button.shop-btn:active{transform:scale(0.95)}
 <body>
 <main>
 
-<!-- 頂部合照橫幅 (點擊切換台詞) -->
+<!-- 頂部合照橫幅 -->
 <div class="banner-container" onclick="nextDialogue()">
   <img class="banner-img" src="team.jpg.JPG" alt="陪伴應援合照" onerror="this.onerror=null;this.src='team.jpg';">
   <div class="banner-tag">點擊換應援台詞 💬</div>
@@ -176,7 +176,7 @@ button.shop-btn:active{transform:scale(0.95)}
 <div class="speech-box">
   <div class="speech-content" onclick="nextDialogue()">
     <span style="font-size:16px">💬</span>
-    <span id="speech-text">雪乃：「出國消費請務必確認回饋上限與請款規則，不要大意了喔。」</span>
+    <span id="speech-text">雪乃：「富邦 J 卡指定特店有最高 10% 加碼，但務必留意登錄名額與加碼封頂門檻喔。」</span>
   </div>
   <button class="change-talk-btn" onclick="nextDialogue()">換一句 🔄</button>
 </div>
@@ -226,6 +226,11 @@ button.shop-btn:active{transform:scale(0.95)}
 <div class="card">
 <h3>③ 選擇消費店家 (點擊直接切換)</h3>
 
+<div class="cat-title">🏪 便利超商 (三大超商 10% 專區)</div>
+<div class="btn-grid">
+  <button type="button" class="shop-btn" data-id="conveni" onclick="selectShop('conveni')">三大超商 (7-11/全家/Lawson)</button>
+</div>
+
 <div class="cat-title">🛒 家電量販 / 綜合生活</div>
 <div class="btn-grid">
   <button type="button" class="shop-btn active" data-id="biccamera" onclick="selectShop('biccamera')">BicCamera</button>
@@ -233,12 +238,12 @@ button.shop-btn:active{transform:scale(0.95)}
   <button type="button" class="shop-btn" data-id="edion" onclick="selectShop('edion')">愛電王 (EDION)</button>
 </div>
 
-<div class="cat-title">💊 藥妝連鎖</div>
+<div class="cat-title">💊 藥妝連鎖 (特店加碼比拼)</div>
 <div class="btn-grid">
+  <button type="button" class="shop-btn" data-id="matsumoto" onclick="selectShop('matsumoto')">松本清 (富邦J/熊 10%)</button>
+  <button type="button" class="shop-btn" data-id="daikoku" onclick="selectShop('daikoku')">大國藥妝 (富邦J/熊 10%)</button>
+  <button type="button" class="shop-btn" data-id="tsuruha" onclick="selectShop('tsuruha')">鶴羽藥妝 (富邦J 10%)</button>
   <button type="button" class="shop-btn" data-id="donki" onclick="selectShop('donki')">唐吉訶德 (驚安殿堂)</button>
-  <button type="button" class="shop-btn" data-id="matsumoto" onclick="selectShop('matsumoto')">松本清</button>
-  <button type="button" class="shop-btn" data-id="daikoku" onclick="selectShop('daikoku')">大國藥妝</button>
-  <button type="button" class="shop-btn" data-id="tsuruha" onclick="selectShop('tsuruha')">鶴羽藥妝 (TSURUHA)</button>
   <button type="button" class="shop-btn" data-id="sugi" onclick="selectShop('sugi')">杉藥局 (SUGI)</button>
 </div>
 
@@ -280,7 +285,6 @@ button.shop-btn:active{transform:scale(0.95)}
   <input id="amount" class="text-input" type="number" placeholder="消費金額 (台幣 NT$，可選填試算現金回饋)" oninput="runCalculation()">
 </div>
 
-<!-- 立即查詢按鈕 -->
 <button type="button" class="main-query-btn" onclick="runCalculation()">
   <span>🔍</span> 立即計算最佳回饋
 </button>
@@ -291,30 +295,21 @@ button.shop-btn:active{transform:scale(0.95)}
 
 <div class="card tips">
 <b>💡 2026 日本旅遊刷卡備忘：</b><br>
+・<b>富邦 J 卡 10% 特店</b>：三大便利商店、松本清、大國藥妝、鶴羽藥妝享最高 10%（含基本 3% + 指定加碼 7%，需留意登錄與每季加碼上限約 NT$600~1000）。大額請刷無上限卡！<br>
 ・<b>PayPay 條碼支援</b>：玉山 Wallet 綁熊本熊卡（免 1.5% 且活動加碼最高約 6.5%）或街口綁台新街利存/指定卡（免海外手續費約 3.5~4.5%）。<br>
-・<b>大額消費防封頂</b>：玉山熊本熊指定特店（8.5%）每月加碼上限通常為 NT$300~500；國泰 CUBE（日本賞 3.3%~5%）與台新玫瑰/太陽（3.8%）多為無上限，高單價買電器首選無上限卡。
+・<b>大額消費防封頂</b>：玉山熊本熊（8.5%）與富邦 J 卡（10%）特店加碼皆有封頂限制；高單價採購家電（如 BicCamera）首選無上限的台新（3.8%）或國泰 CUBE（3.3%~5%）。
 </div>
 </main>
 
 <script>
-// 應援台詞庫
 const allDialogues = [
+  "雪乃：「富邦 J 卡在特定藥妝與超商確實有高達 10% 的表現，但若是大額消費，請務必切換大額模式提防封頂。」",
   "雪乃：「出國消費請務必確認回饋上限與請款規則，不要大意了喔。」",
-  "雪乃：「大額採購家電時要特別提防加碼封頂問題。若是高單價，無上限的卡片反而是最理性的歸宿。」",
-  "雪乃：「……就算一直盯著我們的照片看，也不代表你可以把旅費預算全部拿去買熊貓玩偶喔？」",
   "雪乃：「這點程度的邏輯運算交給我即可，你只要專心挑選想買的東西就行了。」",
-  "雪乃：「既然要刷卡，就要追求最高效益。浪費回饋這種事……我是不允許的。」",
-  "雪乃：「排隊退稅時記得把護照準備好，慌慌張張的樣子可不好看呢。」",
-  "結衣：「買完東西記得順便去吃草莓大福～！啊哈哈，刷對卡省下來的錢剛好買甜點！」",
+  "結衣：「哇！便利商店和松本清刷富邦 J 卡有 10% 耶！買宵夜零食超划算的啦～！」",
   "結衣：「藥妝店排隊好長喔～還好用按鈕點一下就知道刷哪張，超厲害的！」",
-  "結衣：「小雪乃和小彩羽都在看著呢～今天在日本也要開開心心玩喔！」",
-  "結衣：「啊！這件衣服感覺很適合你耶！要不要先看看這家店哪張卡回饋比較高？」",
-  "結衣：「走累了嗎？要不要找一間有回饋的咖啡廳坐下來休息一下呢～？」",
-  "彩羽：「呼呼～前輩，替我買 Pokémon Center 的伴手禮時，可要記得挑回饋最高的那張刷喔？」",
-  "彩羽：「大額直刷點下去了嗎？明明答應要請我吃敘敘苑的……啊啦，難道想裝傻賴掉嗎？」",
-  "彩羽：「一直戳我們的照片……前輩該不會是對我們抱有什麼奇奇怪怪的非分之想吧？真是拿你沒辦法呢～」",
-  "彩羽：「啊啦，連這種小店都能用 PayPay 掃碼呀？真不愧是前輩，準備得真周全呢♪」",
-  "彩羽：「看在前輩這麼努力比價的份上，回去之後我就特別允許你請我喝一杯奶茶吧～」"
+  "彩羽：「呼呼～前輩，看到 10% 可別高興得太早喔？加碼額度要是刷爆了，我可是會笑前輩沒算好的喔♪」",
+  "彩羽：「替我買伴手禮的時候，挑回饋最高的那張刷就對啦～前輩最棒了！」"
 ];
 
 let curIdx = 0;
@@ -327,39 +322,52 @@ function nextDialogue() {
   document.getElementById("speech-text").innerText = allDialogues[curIdx];
 }
 
-// 商店比價資料表
+// 商店比價資料表 (已納入富邦J卡 10% 特店資料)
 const shopMap = {
-  biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  yodobashi: { name: "友都八喜 (Yodobashi)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  edion: { name: "愛電王 (EDION)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  donki: { name: "唐吉訶德 (驚安殿堂)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  matsumoto: { name: "松本清", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  daikoku: { name: "大國藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  tsuruha: { name: "鶴羽藥妝 (TSURUHA)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  sugi: { name: "杉藥局 (SUGI)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  uniqlo: { name: "UNIQLO", cube: 5.0, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  gu: { name: "GU", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  muji: { name: "無印良品", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  loft: { name: "Loft", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  three_coins: { name: "3COINS", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  abcmart: { name: "ABC-MART", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  pokemon: { name: "Pokémon Center", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  sanrio: { name: "三麗鷗專賣店", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  kiddyland: { name: "Kiddy Land", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  alpen: { name: "Alpen 運動戶外", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 },
-  ichiran: { name: "一蘭拉麵", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  sushiro: { name: "壽司郎", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  kura: { name: "藏壽司", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  jojoen: { name: "敘敘苑燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  gyukaku: { name: "牛角燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  toriki: { name: "鳥貴族", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  matsuya: { name: "松屋 / すき家", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
-  other: { name: "一般店家 / 街邊攤商 (無特店)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3 }
+  // 超商專區
+  conveni: { name: "三大便利超商 (7-11/全家/Lawson)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
+  
+  // 家電
+  biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  yodobashi: { name: "友都八喜 (Yodobashi)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  edion: { name: "愛電王 (EDION)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  
+  // 藥妝
+  matsumoto: { name: "松本清", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
+  daikoku: { name: "大國藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
+  tsuruha: { name: "鶴羽藥妝 (TSURUHA)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
+  donki: { name: "唐吉訶德 (驚安殿堂)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  sugi: { name: "杉藥局 (SUGI)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  
+  // 服飾
+  uniqlo: { name: "UNIQLO", cube: 5.0, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  gu: { name: "GU", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  muji: { name: "無印良品", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  loft: { name: "Loft", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  three_coins: { name: "3COINS", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  abcmart: { name: "ABC-MART", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  
+  // 動漫
+  pokemon: { name: "Pokémon Center", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  sanrio: { name: "三麗鷗專賣店", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  kiddyland: { name: "Kiddy Land", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  alpen: { name: "Alpen 運動戶外", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  
+  // 餐飲
+  ichiran: { name: "一蘭拉麵", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  sushiro: { name: "壽司郎", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  kura: { name: "藏壽司", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  jojoen: { name: "敘敘苑燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  gyukaku: { name: "牛角燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  toriki: { name: "鳥貴族", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  matsuya: { name: "松屋 / すき家", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
+  
+  // 保底
+  other: { name: "一般店家 / 街邊攤商 (無特店)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false }
 };
 
 let currentShopId = "biccamera";
 
-// 點選店家切換高亮並重算
 function selectShop(id) {
   try {
     currentShopId = id;
@@ -377,7 +385,6 @@ function selectShop(id) {
   }
 }
 
-// 運算核心
 function runCalculation() {
   try {
     const shop = shopMap[currentShopId] || shopMap.biccamera;
@@ -438,17 +445,22 @@ function runCalculation() {
       list.push({ name: "台新 Richart / 玫瑰卡", rate: rate, note: note });
     }
 
-    // 4. 富邦 J 卡
+    // 4. 富邦 J 卡 (含 10% 特店與封頂判斷)
     const jfubonEl = document.getElementById("jfubon");
     if(jfubonEl && jfubonEl.checked){
       let rate = shop.jfubon;
-      let note = "日本實體一般消費最高 3% (需注意登錄或門檻)";
+      let note = shop.jfubon_is_special 
+        ? "🔥 指定特店享最高 10% (3%基本 + 7%加碼需登錄/有上限)[span_3](start_span)"[span_3](end_span) 
+        : "日本實體一般消費最高 3% (需注意登錄或門檻)[span_4](start_span)"[span_4](end_span);
+
       if(scene.startsWith("paypay")){
         rate = 0;
         note = "主要以 JCB 實體過卡感應為主，無直接整合之 PayPay 條碼回饋";
       } else if(scene === "direct_large"){
-        rate = 3.0;
-        note = "高額請留意加碼活動之回饋上限限制";
+        rate = 3.0; // 大額直接降回 3% 防封頂誤導
+        note = shop.jfubon_is_special 
+          ? "特店加碼 7% 上限極易額滿，大額採購溢出部分以基本 3% 計算[span_5](start_span)"[span_5](end_span)
+          : "高額請留意一般消費加碼之回饋上限限制[span_6](start_span)"[span_6](end_span);
       }
       list.push({ name: "富邦 J 卡", rate: rate, note: note });
     }
@@ -489,12 +501,10 @@ function runCalculation() {
   }
 }
 
-// 註冊至全域確保 HTML onclick 絕對找得到
 window.selectShop = selectShop;
 window.runCalculation = runCalculation;
 window.nextDialogue = nextDialogue;
 
-// 初始立即運算
 runCalculation();
 </script>
 </body>
