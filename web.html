@@ -302,7 +302,7 @@ button.shop-btn:active{transform:scale(0.95)}
 </main>
 
 <script>
-const allDialogues = [
+var allDialogues = [
   "雪乃：「富邦 J 卡在特定藥妝與超商確實有高達 10% 的表現，但若是大額消費，請務必切換大額模式提防封頂。」",
   "雪乃：「出國消費請務必確認回饋上限與請款規則，不要大意了喔。」",
   "雪乃：「這點程度的邏輯運算交給我即可，你只要專心挑選想買的東西就行了。」",
@@ -312,9 +312,9 @@ const allDialogues = [
   "彩羽：「替我買伴手禮的時候，挑回饋最高的那張刷就對啦～前輩最棒了！」"
 ];
 
-let curIdx = 0;
+var curIdx = 0;
 function nextDialogue() {
-  let nextIdx;
+  var nextIdx;
   do {
     nextIdx = Math.floor(Math.random() * allDialogues.length);
   } while (nextIdx === curIdx && allDialogues.length > 1);
@@ -322,190 +322,27 @@ function nextDialogue() {
   document.getElementById("speech-text").innerText = allDialogues[curIdx];
 }
 
-// 商店比價資料表 (已納入富邦J卡 10% 特店資料)
-const shopMap = {
-  // 超商專區
+var shopMap = {
   conveni: { name: "三大便利超商 (7-11/全家/Lawson)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
-  
-  // 家電
   biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   yodobashi: { name: "友都八喜 (Yodobashi)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   edion: { name: "愛電王 (EDION)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  
-  // 藥妝
   matsumoto: { name: "松本清", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
   daikoku: { name: "大國藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
   tsuruha: { name: "鶴羽藥妝 (TSURUHA)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 10.0, jfubon_is_special: true },
   donki: { name: "唐吉訶德 (驚安殿堂)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   sugi: { name: "杉藥局 (SUGI)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  
-  // 服飾
   uniqlo: { name: "UNIQLO", cube: 5.0, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   gu: { name: "GU", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   muji: { name: "無印良品", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   loft: { name: "Loft", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   three_coins: { name: "3COINS", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   abcmart: { name: "ABC-MART", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  
-  // 動漫
   pokemon: { name: "Pokémon Center", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   sanrio: { name: "三麗鷗專賣店", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   kiddyland: { name: "Kiddy Land", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   alpen: { name: "Alpen 運動戶外", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  
-  // 餐飲
   ichiran: { name: "一蘭拉麵", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   sushiro: { name: "壽司郎", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
   kura: { name: "藏壽司", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  jojoen: { name: "敘敘苑燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  gyukaku: { name: "牛角燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  toriki: { name: "鳥貴族", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  matsuya: { name: "松屋 / すき家", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false },
-  
-  // 保底
-  other: { name: "一般店家 / 街邊攤商 (無特店)", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_is_special: false }
-};
-
-let currentShopId = "biccamera";
-
-function selectShop(id) {
-  try {
-    currentShopId = id;
-    const btns = document.querySelectorAll(".shop-btn");
-    btns.forEach(b => {
-      if(b.getAttribute("data-id") === id) {
-        b.classList.add("active");
-      } else {
-        b.classList.remove("active");
-      }
-    });
-    runCalculation();
-  } catch(e) {
-    console.error("selectShop error:", e);
-  }
-}
-
-function runCalculation() {
-  try {
-    const shop = shopMap[currentShopId] || shopMap.biccamera;
-    const sceneEl = document.querySelector('input[name="scene"]:checked');
-    const scene = sceneEl ? sceneEl.value : "direct_normal";
-    const amountEl = document.getElementById("amount");
-    const amount = (amountEl && parseFloat(amountEl.value)) ? parseFloat(amountEl.value) : 0;
-
-    let list = [];
-
-    // 1. 國泰 CUBE
-    const cubeEl = document.getElementById("cube");
-    if(cubeEl && cubeEl.checked){
-      let rate = shop.cube;
-      let note = "日本賞權益/切換即時生效，回饋無上限";
-      if(scene.startsWith("paypay")){
-        rate = 0;
-        note = "不支援日本 PayPay 條碼優惠 (此情境不推薦)";
-      } else if(scene === "direct_large"){
-        note = "小樹點回饋無上限，高單價商品首選保證入帳";
-      }
-      list.push({ name: "國泰 CUBE 卡", rate: rate, note: note });
-    }
-
-    // 2. 玉山熊本熊
-    const kumaEl = document.getElementById("kumamon");
-    if(kumaEl && kumaEl.checked){
-      let rate = shop.kumamon;
-      let note = "免 1.5% 交易手續費 + 指定通路加碼";
-      if(scene === "direct_large"){
-        rate = 2.5;
-        note = "加碼回饋上限易滿(通常NT$300~500)，大額溢出部分以基本 2.5% 計算";
-      } else if(scene === "paypay_normal"){
-        rate = 6.5;
-        note = "玉山 Wallet App 綁定掃 PayPay，免 1.5% 手續費並享專屬高額加碼";
-      } else if(scene === "paypay_large"){
-        rate = 2.5;
-        note = "PayPay 活動加碼額度封頂後降為 2.5% 基本雙幣回饋";
-      }
-      list.push({ name: "玉山熊本熊雙幣卡", rate: rate, note: note });
-    }
-
-    // 3. 台新 Richart / 玫瑰
-    const richartEl = document.getElementById("richart");
-    if(richartEl && richartEl.checked){
-      let rate = shop.richart;
-      let note = "海外日韓指定方案 3.8% 台新 Point 回饋無上限";
-      if(scene === "paypay_normal"){
-        rate = 4.5;
-        note = "透過街口支付綁定 Richart / 玫瑰卡掃 PayPay，免 1.5% 海外手續費";
-      } else if(scene === "paypay_large"){
-        rate = 2.0;
-        note = "街口電支跨境條碼有單筆/每月點數回饋上限，高額建議切換為無上限直刷";
-      } else if(scene === "direct_large"){
-        rate = 3.8;
-        note = "大筆刷方案 3.8% 無上限，大額採購電器最省心首選";
-      }
-      list.push({ name: "台新 Richart / 玫瑰卡", rate: rate, note: note });
-    }
-
-    // 4. 富邦 J 卡 (含 10% 特店與封頂判斷)
-    const jfubonEl = document.getElementById("jfubon");
-    if(jfubonEl && jfubonEl.checked){
-      let rate = shop.jfubon;
-      let note = shop.jfubon_is_special 
-        ? "🔥 指定特店享最高 10% (3%基本 + 7%加碼需登錄/有上限)[span_3](start_span)"[span_3](end_span) 
-        : "日本實體一般消費最高 3% (需注意登錄或門檻)[span_4](start_span)"[span_4](end_span);
-
-      if(scene.startsWith("paypay")){
-        rate = 0;
-        note = "主要以 JCB 實體過卡感應為主，無直接整合之 PayPay 條碼回饋";
-      } else if(scene === "direct_large"){
-        rate = 3.0; // 大額直接降回 3% 防封頂誤導
-        note = shop.jfubon_is_special 
-          ? "特店加碼 7% 上限極易額滿，大額採購溢出部分以基本 3% 計算[span_5](start_span)"[span_5](end_span)
-          : "高額請留意一般消費加碼之回饋上限限制[span_6](start_span)"[span_6](end_span);
-      }
-      list.push({ name: "富邦 J 卡", rate: rate, note: note });
-    }
-
-    const out = document.getElementById("out");
-    if(!out) return;
-
-    if(list.length === 0){
-      out.innerHTML = '<div class="card warn">⚠️ 請至少勾選上方一張持有的信用卡！</div>';
-      return;
-    }
-
-    list.sort((a,b) => b.rate - a.rate);
-
-    let html = `<div class="card"><h3 style="margin-bottom:12px">🎯 「${shop.name}」最佳推薦排行</h3>`;
-    list.forEach((item, idx) => {
-      const isBest = idx === 0 && item.rate > 0;
-      const money = amount ? (amount * item.rate / 100).toFixed(0) : 0;
-      
-      html += `
-        <div class="result-item ${isBest ? 'best' : ''}">
-          ${isBest ? '<span class="badge">🏆 最佳首選</span>' : ''}
-          <div class="res-header">
-            <span class="res-name">${item.name}</span>
-            <span class="res-rate">${item.rate > 0 ? item.rate + '%' : '不適用'}</span>
-          </div>
-          ${amount && item.rate > 0 ? `<div class="res-money">預估可拿約 NT$ ${money} 回饋</div>` : ''}
-          <div class="res-detail">${item.note}</div>
-        </div>
-      `;
-    });
-    html += `</div>`;
-    out.innerHTML = html;
-  } catch(e) {
-    console.error("runCalculation error:", e);
-    const out = document.getElementById("out");
-    if(out) out.innerHTML = `<div class="card warn">運算時發生異常：${e.message}</div>`;
-  }
-}
-
-window.selectShop = selectShop;
-window.runCalculation = runCalculation;
-window.nextDialogue = nextDialogue;
-
-runCalculation();
-</script>
-</body>
-</html>
+  jojoen: { name: "敘敘苑燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon
