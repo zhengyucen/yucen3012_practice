@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>🇯🇵 日本刷卡與PayPay最佳化推薦</title>
 <style>
 :root{
@@ -139,6 +139,7 @@ button.shop-btn{
   color:#333;
   cursor:pointer;
   display:inline-block;
+  user-select:none;
 }
 button.shop-btn.active{
   background:var(--primary)!important;
@@ -187,10 +188,10 @@ button.shop-btn:active{transform:scale(0.95)}
 <div class="card">
 <h3>① 持有信用卡 (勾選你持有的卡)</h3>
 <div class="grid-2">
-<label class="check-item"><input type="checkbox" id="cube" checked onchange="calc()"> 國泰 CUBE 卡</label>
-<label class="check-item"><input type="checkbox" id="kumamon" checked onchange="calc()"> 玉山熊本熊雙幣卡</label>
-<label class="check-item"><input type="checkbox" id="richart" checked onchange="calc()"> 台新 Richart / 玫瑰</label>
-<label class="check-item"><input type="checkbox" id="jfubon" checked onchange="calc()"> 富邦 J 卡</label>
+<label class="check-item"><input type="checkbox" id="cube" checked onchange="runCalculation()"> 國泰 CUBE 卡</label>
+<label class="check-item"><input type="checkbox" id="kumamon" checked onchange="runCalculation()"> 玉山熊本熊雙幣卡</label>
+<label class="check-item"><input type="checkbox" id="richart" checked onchange="runCalculation()"> 台新 Richart / 玫瑰</label>
+<label class="check-item"><input type="checkbox" id="jfubon" checked onchange="runCalculation()"> 富邦 J 卡</label>
 </div>
 </div>
 
@@ -199,29 +200,29 @@ button.shop-btn:active{transform:scale(0.95)}
 <h3>② 支付情境</h3>
 <div class="scene-group">
   <label class="scene-btn">
-    <input type="radio" name="scene" value="direct_normal" checked onchange="calc()">
+    <input type="radio" name="scene" value="direct_normal" checked onchange="runCalculation()">
     <span class="scene-title">💳 一般直刷</span>
     <span class="scene-sub">實體感應 / 藥妝服飾中低額</span>
   </label>
   <label class="scene-btn">
-    <input type="radio" name="scene" value="direct_large" onchange="calc()">
+    <input type="radio" name="scene" value="direct_large" onchange="runCalculation()">
     <span class="scene-title">🛍️ 大額直刷</span>
     <span class="scene-sub">電器高單價 / 無上限卡防封頂</span>
   </label>
   <label class="scene-btn">
-    <input type="radio" name="scene" value="paypay_normal" onchange="calc()">
+    <input type="radio" name="scene" value="paypay_normal" onchange="runCalculation()">
     <span class="scene-title">📱 一般 PayPay</span>
     <span class="scene-sub">小店掃碼、街口 / 玉山Wallet</span>
   </label>
   <label class="scene-btn">
-    <input type="radio" name="scene" value="paypay_large" onchange="calc()">
+    <input type="radio" name="scene" value="paypay_large" onchange="runCalculation()">
     <span class="scene-title">💎 大額 PayPay</span>
     <span class="scene-sub">高單價防點數上限溢出</span>
   </label>
 </div>
 </div>
 
-<!-- 3. 商店直接點選 (全靜態寫死，絕無不顯示可能) -->
+<!-- 3. 商店直接點選 -->
 <div class="card">
 <h3>③ 選擇消費店家 (點擊直接切換)</h3>
 
@@ -276,21 +277,17 @@ button.shop-btn:active{transform:scale(0.95)}
 </div>
 
 <div style="margin-top:14px">
-  <input id="amount" class="text-input" type="number" placeholder="消費金額 (台幣 NT$，可選填試算現金回饋)" oninput="calc()">
+  <input id="amount" class="text-input" type="number" placeholder="消費金額 (台幣 NT$，可選填試算現金回饋)" oninput="runCalculation()">
 </div>
 
 <!-- 立即查詢按鈕 -->
-<button type="button" class="main-query-btn" onclick="calc()">
+<button type="button" class="main-query-btn" onclick="runCalculation()">
   <span>🔍</span> 立即計算最佳回饋
 </button>
 </div>
 
-<!-- 4. 結果輸出容器 (預設先放載入提示，JS一執行會秒覆蓋) -->
-<div id="out">
-  <div class="card">
-    <div style="text-align:center;padding:20px;color:#888;">正在計算最佳回饋...</div>
-  </div>
-</div>
+<!-- 4. 結果輸出容器 -->
+<div id="out"></div>
 
 <div class="card tips">
 <b>💡 2026 日本旅遊刷卡備忘：</b><br>
@@ -330,7 +327,7 @@ function nextDialogue() {
   document.getElementById("speech-text").innerText = allDialogues[curIdx];
 }
 
-// 商店比價資料庫
+// 商店資料表
 const shopMap = {
   biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
   yodobashi: { name: "友都八喜 (Yodobashi)", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3 },
@@ -362,9 +359,9 @@ const shopMap = {
 
 let currentShopId = "biccamera";
 
-function selectShop(id) {
+// 點選店家切換高亮並重算
+window.selectShop = function(id) {
   currentShopId = id;
-  // 切換按鈕樣式
   const btns = document.querySelectorAll(".shop-btn");
   btns.forEach(b => {
     if(b.getAttribute("data-id") === id) {
@@ -373,10 +370,11 @@ function selectShop(id) {
       b.classList.remove("active");
     }
   });
-  calc();
-}
+  window.runCalculation();
+};
 
-function calc() {
+// 運算核心 (綁定至 window 避免衝突)
+window.runCalculation = function() {
   const shop = shopMap[currentShopId] || shopMap.biccamera;
   const sceneEl = document.querySelector('input[name="scene"]:checked');
   const scene = sceneEl ? sceneEl.value : "direct_normal";
@@ -385,9 +383,9 @@ function calc() {
 
   let list = [];
 
-  // 1. 國泰 CUBE 卡
-  const cubeChecked = document.getElementById("cube") ? document.getElementById("cube").checked : false;
-  if(cubeChecked){
+  // 1. 國泰 CUBE
+  const cubeEl = document.getElementById("cube");
+  if(cubeEl && cubeEl.checked){
     let rate = shop.cube, note = "日本賞權益/切換即時生效，回饋無上限";
     if(scene.startsWith("paypay")){
       rate = 0;
@@ -398,9 +396,9 @@ function calc() {
     list.push({ name: "國泰 CUBE 卡", rate, note });
   }
 
-  // 2. 玉山熊本熊卡
-  const kumaChecked = document.getElementById("kumamon") ? document.getElementById("kumamon").checked : false;
-  if(kumaChecked){
+  // 2. 玉山熊本熊
+  const kumaEl = document.getElementById("kumamon");
+  if(kumaEl && kumaEl.checked){
     let rate = shop.kumamon, note = "免 1.5% 交易手續費 + 指定通路加碼";
     if(scene === "direct_large"){
       rate = 2.5;
@@ -415,9 +413,9 @@ function calc() {
     list.push({ name: "玉山熊本熊雙幣卡", rate, note });
   }
 
-  // 3. 台新 Richart / 玫瑰卡
-  const richartChecked = document.getElementById("richart") ? document.getElementById("richart").checked : false;
-  if(richartChecked){
+  // 3. 台新 Richart / 玫瑰
+  const richartEl = document.getElementById("richart");
+  if(richartEl && richartEl.checked){
     let rate = shop.richart, note = "海外日韓指定方案 3.8% 台新 Point 回饋無上限";
     if(scene === "paypay_normal"){
       rate = 4.5;
@@ -433,8 +431,8 @@ function calc() {
   }
 
   // 4. 富邦 J 卡
-  const jfubonChecked = document.getElementById("jfubon") ? document.getElementById("jfubon").checked : false;
-  if(jfubonChecked){
+  const jfubonEl = document.getElementById("jfubon");
+  if(jfubonEl && jfubonEl.checked){
     let rate = shop.jfubon, note = "日本實體一般消費最高 3% (需注意登錄或門檻)[span_0](start_span)"[span_0](end_span);
     if(scene.startsWith("paypay")){
       rate = 0;
@@ -454,7 +452,6 @@ function calc() {
     return;
   }
 
-  // 排序高到低
   list.sort((a,b) => b.rate - a.rate);
 
   let html = `<div class="card"><h3 style="margin-bottom:12px">🎯 「${shop.name}」最佳推薦排行</h3>`;
@@ -476,10 +473,10 @@ function calc() {
   });
   html += `</div>`;
   out.innerHTML = html;
-}
+};
 
-// 核心改動：直接在最後一行無條件立即執行！不等待任何事件！
-calc();
+// 初始立即運算
+window.runCalculation();
 </script>
 </body>
 </html>
