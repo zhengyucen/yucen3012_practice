@@ -50,7 +50,7 @@ input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:1
 </div>
 
 <div class="bubble">
-  <span id="speech-text">雪乃：「日本所有實體店家富邦 J 卡登錄皆享 6%，但務必留意單季 1,000 元上限喔。」</span>
+  <span id="speech-text">雪乃：「街口綁定台新卡掃 PayPay 享 3.8% 無上限，大額掃碼時是最理性的防封頂首選喔。」</span>
   <button type="button" class="talk-btn" id="talkBtn">換一句</button>
 </div>
 
@@ -80,12 +80,12 @@ input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:1
     <label class="scene-btn">
       <input type="radio" name="scene" value="paypay_normal">
       <span class="scene-title">📱 一般 PayPay</span>
-      <span class="scene-sub">小店掃碼 / 玉山・街口</span>
+      <span class="scene-sub">小店掃碼 / 熊6.5%・台新3.8%</span>
     </label>
     <label class="scene-btn">
       <input type="radio" name="scene" value="paypay_large">
       <span class="scene-title">💎 大額 PayPay</span>
-      <span class="scene-sub">防點數上限溢出</span>
+      <span class="scene-sub">台新 3.8% 無上限冠軍</span>
     </label>
   </div>
 </div>
@@ -154,12 +154,13 @@ input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:1
 </main>
 
 <script>
+// 台詞庫
 var dialogues = [
+  "雪乃：「街口綁定台新卡掃 PayPay 享 3.8% 無上限，大額掃碼時是最理性的防封頂首選喔。」",
   "雪乃：「日本所有實體店家富邦 J 卡登錄皆享 6%，但務必留意單季 1,000 元上限喔。」",
-  "雪乃：「大額採購家電時，請切換至大額模式，無上限的卡片才是理性的最優解。」",
   "結衣：「實體店家單筆滿千元都有 6% 耶！買藥妝、衣服、吃燒肉通通算！」",
   "結衣：「西瓜卡用 Apple Pay 加值有 10% 真的超方便，搭車買飲料順手刷！」",
-  "彩羽：「呼呼～前輩，替我買伴手禮的時候，挑回饋最高的那張刷就對啦♪」",
+  "彩羽：「呼呼～大額 PayPay 掃碼時台新 3.8% 霸氣稱霸！前輩可要記得挑它刷喔♪」",
   "彩羽：「看到 6% 或 8.5% 可別高興得太早喔？上限要是刷爆了，我可是會笑前輩沒算好的喔～」"
 ];
 
@@ -247,12 +248,13 @@ function runCalculation() {
         var base = amount * 0.025;
         var extra = Math.min(amount * 0.04, 500);
         rewardMoney = base + extra;
-        if (amount * 0.04 > 500) capWarning = "⚠️️ 加碼 NT$500 已達上限";
+        if (amount * 0.04 > 500) capWarning = "⚠️ 加碼 NT$500 已達上限";
       }
     } else if (scene === "paypay_large") {
       rate = 2.5;
-      note = "PayPay 加碼額度封頂後，以基本 2.5% 計";
+      note = "PayPay 活動加碼額度封頂後，以基本 2.5% 計";
       rewardMoney = amount ? (amount * 2.5 / 100) : 0;
+      capWarning = "加碼已封頂，以基本 2.5% 計";
     } else {
       if (s.is_special_kuma) {
         rate = 8.5;
@@ -273,21 +275,28 @@ function runCalculation() {
     list.push({ name: "玉山熊本熊雙幣卡", rate: rate, note: note, money: rewardMoney, capWarning: capWarning });
   }
 
-  // 3. 台新 Richart / 玫瑰卡 (無上限)
+  // 3. 台新 Richart / 玫瑰卡 (精準實裝：PayPay 3.8% 無上限機制)
   if (document.getElementById("richart").checked) {
-    var rate = s.richart;
+    var rate = s.richart; // 預設 3.8%
     var note = "日韓實體消費 3.8% 台新 Point 回饋無上限";
-    var rewardMoney = amount ? (amount * rate / 100) : 0;
+    var rewardMoney = amount ? (amount * 0.038) : 0;
     var capWarning = "無回饋上限";
+
     if (scene === "paypay_normal") {
-      rate = 4.5;
-      note = "街口綁 Richart 掃 PayPay 免手續費 (每月有點數上限)";
-      rewardMoney = amount ? (amount * 0.045) : 0;
-      capWarning = "街口跨境點數有折抵限制";
+      rate = 3.8;
+      note = "街口支付綁 Richart/玫瑰掃 PayPay 享 3.8% 台新 Point 無上限";
+      rewardMoney = amount ? (amount * 0.038) : 0;
+      capWarning = "無回饋上限 (防封頂首選)";
     } else if (scene === "paypay_large") {
-      rate = 2.0;
-      note = "街口跨境掃碼額度已滿，大額建議切換為無上限直刷";
-      rewardMoney = amount ? (amount * 0.02) : 0;
+      rate = 3.8;
+      note = "👑 大額掃碼首選！街口綁卡掃 PayPay 享 3.8% 無上限，完全不被扣倒";
+      rewardMoney = amount ? (amount * 0.038) : 0;
+      capWarning = "無回饋上限 (大額 PayPay 冠軍)";
+    } else if (scene === "direct_large") {
+      rate = 3.8;
+      note = "大筆刷方案 3.8% 無上限，大額採購家電最省心首選";
+      rewardMoney = amount ? (amount * 0.038) : 0;
+      capWarning = "無回饋上限";
     }
     list.push({ name: "台新 Richart / 玫瑰卡", rate: rate, note: note, money: rewardMoney, capWarning: capWarning });
   }
@@ -333,10 +342,11 @@ function runCalculation() {
 
   var out = document.getElementById("out");
   if (list.length === 0) {
-    out.innerHTML = '<div class="card warn">⚠️️ 請至少勾選一張你持有的信用卡！</div>';
+    out.innerHTML = '<div class="card warn">⚠ 請至少勾選一張你持有的信用卡！</div>';
     return;
   }
 
+  // 排序高至低
   list.sort(function(a, b) {
     if (amount > 0) return b.money - a.money;
     return b.rate - a.rate;
@@ -366,7 +376,7 @@ function runCalculation() {
   out.innerHTML = html;
 }
 
-// 核心：使用原生安全事件監聽，確保載入時立刻綁定所有按鈕
+// 核心安全事件綁定
 function setupEvents() {
   var shopButtons = document.querySelectorAll(".shop-btn");
   for (var i = 0; i < shopButtons.length; i++) {
