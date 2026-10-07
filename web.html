@@ -4,427 +4,1832 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>🇯🇵 日本刷卡與PayPay最佳化推薦</title>
+
 <style>
-:root{--primary:#0071e3;--bg:#f5f5f7;--card:#fff;--border:#e5e5ea;--text:#1d1d1f}
-*{box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;background:var(--bg);margin:0;color:var(--text);padding:14px}
-main{max-width:640px;margin:auto;padding-bottom:50px}
-.banner{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,0.08);background:#fff;margin-bottom:12px;cursor:pointer;position:relative}
-.banner img{width:100%;max-height:220px;object-fit:cover;display:block}
-.tag{position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,0.65);color:#fff;padding:4px 10px;border-radius:16px;font-size:11px}
-.bubble{background:#f0f7ff;border:1px solid #cce5ff;border-radius:12px;padding:12px;font-size:13px;color:#004085;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.talk-btn{background:#fff;border:1px solid #b8daff;color:#0071e3;padding:5px 9px;border-radius:8px;font-size:12px;cursor:pointer;white-space:nowrap}
-.card{background:var(--card);border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-h3{font-size:15px;margin:0 0 10px;font-weight:600}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.check-item{display:flex;align-items:center;gap:8px;background:#f9f9fb;padding:10px;border-radius:10px;font-size:13px;border:1px solid var(--border);cursor:pointer}
-.check-item input{width:16px;height:16px}
-.scene-btn{display:flex;flex-direction:column;padding:10px;background:#f9f9fb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer}
-.scene-btn:has(input:checked){background:#fff;border-color:var(--primary)}
-.scene-btn input{display:none}
-.scene-title{font-size:13px;font-weight:700}
-.scene-sub{font-size:11px;color:#888;margin-top:2px}
-.cat-title{font-size:11.5px;font-weight:700;color:#888;margin:14px 0 6px}
-.btn-grid{display:flex;flex-wrap:wrap;gap:6px}
-.shop-btn{border:1px solid var(--border);background:#f9f9fb;border-radius:16px;padding:8px 12px;font-size:13px;cursor:pointer;-webkit-appearance:none}
-.shop-btn.active{background:var(--primary)!important;color:#fff!important;border-color:var(--primary)!important;font-weight:700}
-input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:15px;margin-top:14px;outline:none}
-.main-btn{width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:700;background:#111;color:#fff;cursor:pointer;margin-top:12px}
-.res-card{padding:12px;border-radius:12px;background:#f9f9fb;margin-top:10px;border:1px solid var(--border)}
-.res-card.best{background:#f0f7ff;border:2px solid var(--primary)}
-.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700;background:var(--primary);color:#fff;margin-bottom:4px}
-.res-top{display:flex;justify-content:space-between;align-items:baseline}
-.rate{font-size:22px;font-weight:800;color:var(--primary)}
-.res-money{font-size:14px;font-weight:700;color:#2c3e50;margin-top:4px}
-.tips{font-size:12px;color:#666;margin-top:4px;line-height:1.45}
-.cap-warn{display:inline-block;font-size:11px;color:#d9534f;font-weight:700;margin-top:2px}
-.warn{background:#fff8e6;border:1px solid #ffe199;color:#7a5800;padding:12px;border-radius:10px;font-size:13px}
+:root{
+  --primary:#0071e3;
+  --bg:#f5f5f7;
+  --card:#fff;
+  --border:#e5e5ea;
+  --text:#1d1d1f;
+  --green:#198754;
+  --red:#d9534f;
+  --orange:#9a6700;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;
+  background:var(--bg);
+  margin:0;
+  color:var(--text);
+  padding:14px;
+}
+
+main{
+  max-width:640px;
+  margin:auto;
+  padding-bottom:50px;
+}
+
+.banner{
+  width:100%;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 3px 10px rgba(0,0,0,0.08);
+  background:#fff;
+  margin-bottom:12px;
+  cursor:pointer;
+  position:relative;
+}
+
+.banner img{
+  width:100%;
+  max-height:220px;
+  object-fit:cover;
+  display:block;
+}
+
+.tag{
+  position:absolute;
+  bottom:8px;
+  right:10px;
+  background:rgba(0,0,0,0.65);
+  color:#fff;
+  padding:4px 10px;
+  border-radius:16px;
+  font-size:11px;
+}
+
+.bubble{
+  background:#f0f7ff;
+  border:1px solid #cce5ff;
+  border-radius:12px;
+  padding:12px;
+  font-size:13px;
+  color:#004085;
+  margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+
+.talk-btn{
+  background:#fff;
+  border:1px solid #b8daff;
+  color:#0071e3;
+  padding:5px 9px;
+  border-radius:8px;
+  font-size:12px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:16px;
+  margin:12px 0;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+
+h3{
+  font-size:15px;
+  margin:0 0 10px;
+  font-weight:600;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.check-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#f9f9fb;
+  padding:10px;
+  border-radius:10px;
+  font-size:13px;
+  border:1px solid var(--border);
+  cursor:pointer;
+}
+
+.check-item input{
+  width:16px;
+  height:16px;
+}
+
+.scene-btn{
+  display:flex;
+  flex-direction:column;
+  padding:10px;
+  background:#f9f9fb;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.scene-btn:has(input:checked){
+  background:#fff;
+  border-color:var(--primary);
+}
+
+.scene-btn input{
+  display:none;
+}
+
+.scene-title{
+  font-size:13px;
+  font-weight:700;
+}
+
+.scene-sub{
+  font-size:11px;
+  color:#888;
+  margin-top:2px;
+}
+
+.cat-title{
+  font-size:11.5px;
+  font-weight:700;
+  color:#888;
+  margin:14px 0 6px;
+}
+
+.btn-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.shop-btn{
+  border:1px solid var(--border);
+  background:#f9f9fb;
+  border-radius:16px;
+  padding:8px 12px;
+  font-size:13px;
+  cursor:pointer;
+  -webkit-appearance:none;
+}
+
+.shop-btn.active{
+  background:var(--primary)!important;
+  color:#fff!important;
+  border-color:var(--primary)!important;
+  font-weight:700;
+}
+
+input.amt{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  font-size:15px;
+  margin-top:14px;
+  outline:none;
+}
+
+.main-btn{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  font-size:16px;
+  font-weight:700;
+  background:#111;
+  color:#fff;
+  cursor:pointer;
+  margin-top:12px;
+}
+
+.res-card{
+  padding:12px;
+  border-radius:12px;
+  background:#f9f9fb;
+  margin-top:10px;
+  border:1px solid var(--border);
+}
+
+.res-card.best{
+  background:#f0f7ff;
+  border:2px solid var(--primary);
+}
+
+.badge{
+  display:inline-block;
+  padding:2px 6px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:700;
+  background:var(--primary);
+  color:#fff;
+  margin-bottom:4px;
+}
+
+.res-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:10px;
+}
+
+.rate{
+  font-size:22px;
+  font-weight:800;
+  color:var(--primary);
+  white-space:nowrap;
+}
+
+.res-money{
+  font-size:14px;
+  font-weight:700;
+  color:#2c3e50;
+  margin-top:5px;
+}
+
+.net-money{
+  font-size:13px;
+  font-weight:700;
+  color:var(--green);
+  margin-top:3px;
+}
+
+.fee{
+  font-size:11px;
+  color:#777;
+  margin-top:3px;
+}
+
+.tips{
+  font-size:12px;
+  color:#666;
+  margin-top:5px;
+  line-height:1.5;
+}
+
+.cap-warn{
+  display:inline-block;
+  font-size:11px;
+  color:var(--red);
+  font-weight:700;
+  margin-top:4px;
+}
+
+.warn{
+  background:#fff8e6;
+  border:1px solid #ffe199;
+  color:#7a5800;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+}
+
+.info{
+  background:#f0f7ff;
+  border:1px solid #cce5ff;
+  color:#004085;
+  padding:12px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:10px;
+}
+
+.small-note{
+  font-size:11px;
+  color:#888;
+  line-height:1.5;
+  margin-top:8px;
+}
+
+.divider{
+  height:1px;
+  background:var(--border);
+  margin:12px 0;
+}
+
+@media(max-width:430px){
+  .grid2{
+    grid-template-columns:1fr;
+  }
+
+  .res-top{
+    align-items:flex-start;
+  }
+
+  .rate{
+    font-size:20px;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <main>
 
 <div class="banner" id="bannerBtn">
-  <img src="team.jpg.JPG" alt="陪伴合照" onerror="this.onerror=null;this.src='team.jpg';">
+  <img src="team.jpg.JPG"
+       alt="陪伴合照"
+       onerror="this.onerror=null;this.src='team.jpg';">
   <div class="tag">點擊換台詞 💬</div>
 </div>
 
 <div class="bubble">
-  <span id="speech-text">雪乃：「街口綁定台新卡掃 PayPay 享 3.8% 無上限，大額掃碼時是最理性的防封頂首選喔。」</span>
+  <span id="speech-text">
+    雪乃：「日本刷卡不是只看最高％，回饋上限和海外手續費才是最後的Boss喔。」
+  </span>
   <button type="button" class="talk-btn" id="talkBtn">換一句</button>
 </div>
 
+
+<!-- =========================
+     ① 信用卡
+========================= -->
+
 <div class="card">
+
   <h3>① 我持有的信用卡</h3>
+
   <div class="grid2">
-    <label class="check-item"><input type="checkbox" id="cube" checked> 國泰 CUBE 卡</label>
-    <label class="check-item"><input type="checkbox" id="kumamon" checked> 玉山熊本熊雙幣卡</label>
-    <label class="check-item"><input type="checkbox" id="richart" checked> 台新 Richart / 玫瑰</label>
-    <label class="check-item"><input type="checkbox" id="jfubon" checked> 富邦 J 卡</label>
+
+    <label class="check-item">
+      <input type="checkbox" id="cube" checked>
+      國泰 CUBE 卡
+    </label>
+
+    <label class="check-item">
+      <input type="checkbox" id="kumamon" checked>
+      玉山熊本熊雙幣卡
+    </label>
+
+    <label class="check-item">
+      <input type="checkbox" id="richart" checked>
+      台新 Richart / 玫瑰
+    </label>
+
+    <label class="check-item">
+      <input type="checkbox" id="jfubon" checked>
+      富邦 J 卡
+    </label>
+
   </div>
+
 </div>
+
+
+<!-- =========================
+     ② 支付情境
+========================= -->
 
 <div class="card">
+
   <h3>② 支付情境</h3>
+
   <div class="grid2">
+
     <label class="scene-btn">
-      <input type="radio" name="scene" value="direct_normal" checked>
+      <input type="radio"
+             name="scene"
+             value="direct_normal"
+             checked>
       <span class="scene-title">💳 一般直刷</span>
-      <span class="scene-sub">實體感應 / 中低額</span>
+      <span class="scene-sub">實體卡 / 感應支付</span>
     </label>
+
     <label class="scene-btn">
-      <input type="radio" name="scene" value="direct_large">
+      <input type="radio"
+             name="scene"
+             value="direct_large">
       <span class="scene-title">🛍️ 大額直刷</span>
-      <span class="scene-sub">電器高單價 / 防封頂</span>
+      <span class="scene-sub">家電 / 高單價購物</span>
     </label>
+
     <label class="scene-btn">
-      <input type="radio" name="scene" value="paypay_normal">
+      <input type="radio"
+             name="scene"
+             value="paypay_normal">
       <span class="scene-title">📱 一般 PayPay</span>
-      <span class="scene-sub">小店掃碼 / 熊6.5%・台新3.8%</span>
+      <span class="scene-sub">日本 PayPay 掃碼</span>
     </label>
+
     <label class="scene-btn">
-      <input type="radio" name="scene" value="paypay_large">
+      <input type="radio"
+             name="scene"
+             value="paypay_large">
       <span class="scene-title">💎 大額 PayPay</span>
-      <span class="scene-sub">台新 3.8% 無上限冠軍</span>
+      <span class="scene-sub">防回饋上限</span>
     </label>
+
   </div>
+
 </div>
 
-<!-- 店家選取區：完整收斂所有分類 -->
+
+<!-- =========================
+     ③ 店家
+========================= -->
+
 <div class="card" id="shopCard">
-  <h3>③ 選擇店家 (點擊直接切換)</h3>
 
-  <div class="cat-title">🚇 交通卡專區</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" data-key="suica">Suica / PASMO 加值 (富邦J 10%)</button>
+  <h3>③ 選擇店家</h3>
+
+  <div class="cat-title">
+    🚇 日本交通卡
   </div>
 
-  <div class="cat-title">🛒 家電量販 (實體富邦J 6% / 熊 8.5%)</div>
   <div class="btn-grid">
-    <button type="button" class="shop-btn active" data-key="biccamera">BicCamera</button>
-    <button type="button" class="shop-btn" data-key="yodobashi">友都八喜</button>
-    <button type="button" class="shop-btn" data-key="edion">愛電王</button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="suica">
+      Suica / PASMO / ICOCA
+    </button>
+
   </div>
 
-  <div class="cat-title">💊 藥妝生活 (實體富邦J 6% / 熊 8.5%)</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" data-key="matsumoto">松本清</button>
-    <button type="button" class="shop-btn" data-key="daikoku">大國藥妝</button>
-    <button type="button" class="shop-btn" data-key="tsuruha">鶴羽藥妝</button>
-    <button type="button" class="shop-btn" data-key="donki">唐吉訶德</button>
-    <button type="button" class="shop-btn" data-key="conveni">三大便利超商</button>
-    <button type="button" class="shop-btn" data-key="sugi">杉藥局 (實體6%/熊2.5%)</button>
+
+  <div class="cat-title">
+    🛒 家電量販
   </div>
 
-  <div class="cat-title">👕 服飾生活雜貨 (實體富邦J 6%)</div>
   <div class="btn-grid">
-    <button type="button" class="shop-btn" data-key="uniqlo">UNIQLO</button>
-    <button type="button" class="shop-btn" data-key="gu">GU</button>
-    <button type="button" class="shop-btn" data-key="muji">無印良品</button>
-    <button type="button" class="shop-btn" data-key="loft">Loft (實體6%/熊2.5%)</button>
-    <button type="button" class="shop-btn" data-key="abcmart">ABC-MART (實體6%/熊2.5%)</button>
+
+    <button type="button"
+            class="shop-btn active"
+            data-key="biccamera">
+      BicCamera
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="yodobashi">
+      友都八喜
+    </button>
+
   </div>
 
-  <div class="cat-title">🎮 潮流動漫 (實體富邦J 6%)</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" data-key="pokemon">Pokémon Center</button>
-    <button type="button" class="shop-btn" data-key="sanrio">三麗鷗專賣店</button>
-    <button type="button" class="shop-btn" data-key="kiddyland">Kiddy Land</button>
+
+  <div class="cat-title">
+    💊 藥妝生活
   </div>
 
-  <div class="cat-title">🍜 連鎖美食餐廳 (實體富邦J 6%)</div>
   <div class="btn-grid">
-    <button type="button" class="shop-btn" data-key="ichiran">一蘭拉麵</button>
-    <button type="button" class="shop-btn" data-key="sushiro">壽司郎</button>
-    <button type="button" class="shop-btn" data-key="jojoen">敘敘苑燒肉</button>
-    <button type="button" class="shop-btn" data-key="matsuya">松屋 / すき家</button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="matsumoto">
+      松本清
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="daikoku">
+      大國藥妝
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="sugi">
+      杉藥局
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="donki">
+      唐吉訶德
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="conveni">
+      便利商店
+    </button>
+
   </div>
 
-  <div class="cat-title">📍 一般路邊小店 / 攤商</div>
-  <div class="btn-grid">
-    <button type="button" class="shop-btn" data-key="other">一般店家 (實體富邦J 6%)</button>
+
+  <div class="cat-title">
+    👕 服飾 / 生活雜貨
   </div>
 
-  <input id="amount" class="amt" type="number" placeholder="消費金額 (台幣 NT$，可選填試算現金回饋)">
-  <button type="button" class="main-btn" id="calcBtn">🔍 立即計算最佳回饋</button>
+  <div class="btn-grid">
+
+    <button type="button"
+            class="shop-btn"
+            data-key="uniqlo">
+      UNIQLO
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="gu">
+      GU
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="muji">
+      無印良品
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="loft">
+      Loft
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="abcmart">
+      ABC-MART
+    </button>
+
+  </div>
+
+
+  <div class="cat-title">
+    🎮 潮流 / 動漫
+  </div>
+
+  <div class="btn-grid">
+
+    <button type="button"
+            class="shop-btn"
+            data-key="pokemon">
+      Pokémon Center
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="sanrio">
+      三麗鷗
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="kiddyland">
+      Kiddy Land
+    </button>
+
+  </div>
+
+
+  <div class="cat-title">
+    🍜 餐廳
+  </div>
+
+  <div class="btn-grid">
+
+    <button type="button"
+            class="shop-btn"
+            data-key="ichiran">
+      一蘭
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="sushiro">
+      壽司郎
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="jojoen">
+      敘敘苑
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="matsuya">
+      松屋 / SUKIYA
+    </button>
+
+    <button type="button"
+            class="shop-btn"
+            data-key="torikizoku">
+      鳥貴族
+    </button>
+
+  </div>
+
+
+  <div class="cat-title">
+    📍 一般日本實體店
+  </div>
+
+  <div class="btn-grid">
+
+    <button type="button"
+            class="shop-btn"
+            data-key="other">
+      一般店家
+    </button>
+
+  </div>
+
+
+  <input
+    id="amount"
+    class="amt"
+    type="number"
+    min="0"
+    inputmode="decimal"
+    placeholder="消費金額 NT$（可選填）"
+  >
+
+  <button type="button"
+          class="main-btn"
+          id="calcBtn">
+    🔍 計算最佳回饋
+  </button>
+
 </div>
+
 
 <div id="out"></div>
 
+
 </main>
 
+
 <script>
-// 台詞庫
+
+/* =========================================================
+   台詞
+========================================================= */
+
 var dialogues = [
-  "雪乃：「街口綁定台新卡掃 PayPay 享 3.8% 無上限，大額掃碼時是最理性的防封頂首選喔。」",
-  "雪乃：「日本所有實體店家富邦 J 卡登錄皆享 6%，但務必留意單季 1,000 元上限喔。」",
-  "結衣：「實體店家單筆滿千元都有 6% 耶！買藥妝、衣服、吃燒肉通通算！」",
-  "結衣：「西瓜卡用 Apple Pay 加值有 10% 真的超方便，搭車買飲料順手刷！」",
-  "彩羽：「呼呼～大額 PayPay 掃碼時台新 3.8% 霸氣稱霸！前輩可要記得挑它刷喔♪」",
-  "彩羽：「看到 6% 或 8.5% 可別高興得太早喔？上限要是刷爆了，我可是會笑前輩沒算好的喔～」"
+
+  "雪乃：「日本刷卡不是只看最高％，回饋上限和海外手續費才是最後的Boss喔。」",
+
+  "雪乃：「熊本熊指定店最高8.5%，但6%加碼每期只有500元上限，大額不要傻傻一路刷到底。」",
+
+  "結衣：「PayPay 的話要看支付方式！玉山熊本熊是3.5%回饋，台新 Pay+ 綁 Richart 則有3.8%喔！」",
+
+  "結衣：「富邦J卡日本實體最高6%，但要單筆滿1000元、完成登錄，而且每季加碼上限1000元！」",
+
+  "彩羽：「Suica、PASMO、ICOCA 用 Apple Pay 綁富邦J卡，單筆滿2000元最高10%，這個真的很會。」",
+
+  "彩羽：「看到8.5%不要立刻尖叫～先看加碼還剩多少，不然回饋上限會把你的美夢直接切掉喔♪」",
+
+  "雪乃：「台新 Pay+ 的日本 PayPay 3.8% 是 Pay+ 綁 Richart，再切換 Pay 著刷，不是街口支付喔。」"
+
 ];
 
 var curTalk = 0;
-function nextDialogue() {
+
+function nextDialogue(){
+
   curTalk = (curTalk + 1) % dialogues.length;
-  document.getElementById("speech-text").innerText = dialogues[curTalk];
+
+  document.getElementById("speech-text").innerText =
+    dialogues[curTalk];
+
 }
 
+
+/* =========================================================
+   店家資料
+=========================================================
+
+   kumamonSpecial:
+   玉山熊本熊 2026/7/1~12/31
+   指定日本商店 2.5% + 6%
+   加碼每期每歸戶上限 NT$500
+   需登錄
+
+   cube:
+   2026/10/1~11/30
+   CUBE 秋日遊
+   日本實體消費 3.5%
+
+   richart:
+   一般日本實體先以 3.3% 計
+   PayPay 使用台新 Pay+ + Richart + Pay著刷
+   3.8%
+
+   jfubon:
+   日本/韓國/泰國實體
+   基本最高3%
+   單筆滿1000元加碼3%
+   每季加碼上限1000
+   需登錄
+
+========================================================= */
+
 var shops = {
-  suica: { name: "Suica / PASMO 交通卡加值", cube: 3.3, kumamon: 2.5, richart: 3.8, is_special_kuma: false, is_suica: true },
-  biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  yodobashi: { name: "友都八喜", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  edion: { name: "愛電王", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  matsumoto: { name: "松本清", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  daikoku: { name: "大國藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  tsuruha: { name: "鶴羽藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  donki: { name: "唐吉訶德", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  conveni: { name: "三大便利超商", cube: 3.3, kumamon: 2.5, richart: 3.8, is_special_kuma: false },
-  sugi: { name: "杉藥局", cube: 3.3, kumamon: 2.5, richart: 3.8, is_special_kuma: false },
-  uniqlo: { name: "UNIQLO", cube: 5.0, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  gu: { name: "GU", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  muji: { name: "無印良品", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  loft: { name: "Loft", cube: 3.3, kumamon: 2.5, richart: 3.8, is_special_kuma: false },
-  abcmart: { name: "ABC-MART", cube: 3.3, kumamon: 2.5, richart: 3.8, is_special_kuma: false },
-  pokemon: { name: "Pokémon Center", cube: 5.0, kumamon: 2.5, richart: 3.8, is_special_kuma: false },
-  sanrio: { name: "三麗鷗專賣店", cube: 5.0, kumamon: 2.5, richart: 3.8, is_special_kuma: false },
-  kiddyland: { name: "Kiddy Land", cube: 3.3, kumamon: 2.5, richart: 3.8, is_special_kuma: false },
-  ichiran: { name: "一蘭拉麵", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  sushiro: { name: "壽司郎", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  jojoen: { name: "敘敘苑燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  matsuya: { name: "松屋 / すき家", cube: 3.3, kumamon: 8.5, richart: 3.8, is_special_kuma: true },
-  other: { name: "一般店家 (無特定加碼)", cube: 3.3, kumamon: 2.5, richart: 3.8, is_special_kuma: false }
+
+  suica:{
+    name:"Suica / PASMO / ICOCA",
+    kumamonSpecial:false,
+    isSuica:true
+  },
+
+  biccamera:{
+    name:"BicCamera",
+    kumamonSpecial:true
+  },
+
+  yodobashi:{
+    name:"友都八喜",
+    kumamonSpecial:true
+  },
+
+  matsumoto:{
+    name:"松本清",
+    kumamonSpecial:true
+  },
+
+  daikoku:{
+    name:"大國藥妝",
+    kumamonSpecial:true
+  },
+
+  sugi:{
+    name:"SUGI 杉藥局",
+    kumamonSpecial:false
+  },
+
+  donki:{
+    name:"唐吉訶德",
+    kumamonSpecial:true
+  },
+
+  conveni:{
+    name:"日本便利商店",
+    kumamonSpecial:false,
+    isConvenience:true
+  },
+
+  uniqlo:{
+    name:"UNIQLO",
+    kumamonSpecial:true
+  },
+
+  gu:{
+    name:"GU",
+    kumamonSpecial:true
+  },
+
+  muji:{
+    name:"無印良品",
+    kumamonSpecial:true
+  },
+
+  loft:{
+    name:"Loft",
+    kumamonSpecial:false
+  },
+
+  abcmart:{
+    name:"ABC-MART",
+    kumamonSpecial:false
+  },
+
+  pokemon:{
+    name:"Pokémon Center",
+    kumamonSpecial:false
+  },
+
+  sanrio:{
+    name:"三麗鷗",
+    kumamonSpecial:false
+  },
+
+  kiddyland:{
+    name:"Kiddy Land",
+    kumamonSpecial:false
+  },
+
+  ichiran:{
+    name:"一蘭",
+    kumamonSpecial:true
+  },
+
+  sushiro:{
+    name:"壽司郎",
+    kumamonSpecial:true
+  },
+
+  jojoen:{
+    name:"敘敘苑",
+    kumamonSpecial:true
+  },
+
+  matsuya:{
+    name:"松屋 / SUKIYA",
+    kumamonSpecial:true
+  },
+
+  torikizoku:{
+    name:"鳥貴族",
+    kumamonSpecial:true
+  },
+
+  other:{
+    name:"一般日本實體店",
+    kumamonSpecial:false
+  }
+
 };
+
 
 var currentShopKey = "biccamera";
 
-function runCalculation() {
-  var s = shops[currentShopKey] || shops.biccamera;
-  
-  var scenes = document.getElementsByName("scene");
-  var scene = "direct_normal";
-  for (var i = 0; i < scenes.length; i++) {
-    if (scenes[i].checked) {
-      scene = scenes[i].value;
-      break;
-    }
+
+/* =========================================================
+   工具
+========================================================= */
+
+function money(v){
+
+  if(!v || isNaN(v)){
+    return "NT$ 0";
   }
 
-  var amtVal = document.getElementById("amount").value;
-  var amount = parseFloat(amtVal) || 0;
-  var list = [];
+  return "NT$ " + Math.floor(v).toLocaleString();
 
-  // 1. 國泰 CUBE 卡 (無上限)
-  if (document.getElementById("cube").checked) {
-    var rate = s.cube;
-    var note = "日本賞/快閃權益無上限，高單價首選";
-    var rewardMoney = amount ? (amount * rate / 100) : 0;
-    var capWarning = "無回饋上限";
-    if (scene.indexOf("paypay") === 0) {
-      rate = 0;
-      note = "不支援日本 PayPay 條碼優惠 (建議直刷)";
-      rewardMoney = 0;
-      capWarning = "";
+}
+
+
+function getScene(){
+
+  var scenes =
+    document.getElementsByName("scene");
+
+  for(var i=0;i<scenes.length;i++){
+
+    if(scenes[i].checked){
+      return scenes[i].value;
     }
-    list.push({ name: "國泰 CUBE 卡", rate: rate, note: note, money: rewardMoney, capWarning: capWarning });
+
   }
 
-  // 2. 玉山熊本熊雙幣卡
-  if (document.getElementById("kumamon").checked) {
-    var rate = s.kumamon;
-    var note = "免 1.5% 手續費 + 指定特店 6% 加碼";
-    var rewardMoney = 0;
-    var capWarning = "";
-    
-    if (scene === "direct_large") {
-      rate = 2.5;
-      note = "特店加碼已達上限，以基本 2.5% 免手續費無上限計";
-      rewardMoney = amount ? (amount * 2.5 / 100) : 0;
-      capWarning = "以無上限基本回饋計";
-    } else if (scene === "paypay_normal") {
-      rate = 6.5;
-      note = "玉山 Wallet 綁定掃 PayPay 免手續費，加碼上限 NT$500/月";
-      if (amount) {
-        var base = amount * 0.025;
-        var extra = Math.min(amount * 0.04, 500);
-        rewardMoney = base + extra;
-        if (amount * 0.04 > 500) capWarning = "⚠️ 加碼 NT$500 已達上限";
+  return "direct_normal";
+
+}
+
+
+/* =========================================================
+   取得信用卡結果
+========================================================= */
+
+function buildResults(){
+
+  var shop =
+    shops[currentShopKey] || shops.biccamera;
+
+  var scene = getScene();
+
+  var amount =
+    parseFloat(document.getElementById("amount").value) || 0;
+
+  var results = [];
+
+
+  /* =====================================================
+     國泰 CUBE
+  ===================================================== */
+
+  if(document.getElementById("cube").checked){
+
+    var cubeReward = 0;
+    var cubeFee = 0;
+    var cubeRate = 0;
+    var cubeNet = 0;
+    var cubeNote = "";
+    var cubeWarning = "";
+
+    if(scene.indexOf("paypay") === 0){
+
+      cubeRate = 0;
+      cubeNote =
+        "目前這個推薦器不將 CUBE 視為日本 PayPay 回饋卡。";
+
+    }else{
+
+      cubeRate = 3.5;
+
+      cubeNote =
+        "2026/10/1～11/30「秋日遊」切換後，日本實體消費 3.5%。";
+
+      if(shop.isSuica){
+
+        cubeNote +=
+          " Apple 錢包日本交通卡另有 App 領券加碼最高5%，需另外符合活動條件。";
+
       }
-    } else if (scene === "paypay_large") {
-      rate = 2.5;
-      note = "PayPay 活動加碼額度封頂後，以基本 2.5% 計";
-      rewardMoney = amount ? (amount * 2.5 / 100) : 0;
-      capWarning = "加碼已封頂，以基本 2.5% 計";
-    } else {
-      if (s.is_special_kuma) {
-        rate = 8.5;
-        note = "基本 2.5% 無上限 + 特店 6% 加碼 (上限 NT$500/月，刷滿 NT$8,333 封頂)";
-        if (amount) {
-          var base = amount * 0.025;
-          var extra = Math.min(amount * 0.06, 500);
-          rewardMoney = base + extra;
-          if (amount * 0.06 > 500) capWarning = "⚠️ 加碼 NT$500 已達上限，溢出以 2.5% 計";
-        }
-      } else {
-        rate = 2.5;
-        note = "日本一般消費享 2.5% 免海外手續費 (回饋無上限)";
-        rewardMoney = amount ? (amount * 0.025) : 0;
-        capWarning = "無回饋上限";
+
+      if(amount){
+
+        cubeReward =
+          amount * 0.035;
+
+        cubeFee =
+          amount * 0.015;
+
+        cubeNet =
+          cubeReward - cubeFee;
+
       }
+
+      cubeWarning =
+        "⚠️ 3.5% 為活動回饋，海外交易手續費仍須依銀行實際認列。";
+
     }
-    list.push({ name: "玉山熊本熊雙幣卡", rate: rate, note: note, money: rewardMoney, capWarning: capWarning });
+
+    results.push({
+
+      name:"國泰 CUBE 卡",
+
+      rate:cubeRate,
+
+      reward:cubeReward,
+
+      fee:cubeFee,
+
+      net:cubeNet,
+
+      note:cubeNote,
+
+      warning:cubeWarning,
+
+      usable:cubeRate > 0
+
+    });
+
   }
 
-  // 3. 台新 Richart / 玫瑰卡 (精準實裝：PayPay 3.8% 無上限機制)
-  if (document.getElementById("richart").checked) {
-    var rate = s.richart; // 預設 3.8%
-    var note = "日韓實體消費 3.8% 台新 Point 回饋無上限";
-    var rewardMoney = amount ? (amount * 0.038) : 0;
-    var capWarning = "無回饋上限";
 
-    if (scene === "paypay_normal") {
-      rate = 3.8;
-      note = "街口支付綁 Richart/玫瑰掃 PayPay 享 3.8% 台新 Point 無上限";
-      rewardMoney = amount ? (amount * 0.038) : 0;
-      capWarning = "無回饋上限 (防封頂首選)";
-    } else if (scene === "paypay_large") {
-      rate = 3.8;
-      note = "👑 大額掃碼首選！街口綁卡掃 PayPay 享 3.8% 無上限，完全不被扣倒";
-      rewardMoney = amount ? (amount * 0.038) : 0;
-      capWarning = "無回饋上限 (大額 PayPay 冠軍)";
-    } else if (scene === "direct_large") {
-      rate = 3.8;
-      note = "大筆刷方案 3.8% 無上限，大額採購家電最省心首選";
-      rewardMoney = amount ? (amount * 0.038) : 0;
-      capWarning = "無回饋上限";
-    }
-    list.push({ name: "台新 Richart / 玫瑰卡", rate: rate, note: note, money: rewardMoney, capWarning: capWarning });
-  }
+  /* =====================================================
+     玉山熊本熊雙幣卡
+  ===================================================== */
 
-  // 4. 富邦 J 卡 (實體滿千登錄6% / 加碼每季上限1000 / Suica 10%)
-  if (document.getElementById("jfubon").checked) {
-    var rate = 6.0;
-    var note = "實體單筆滿千登錄最高 6% (基本3%無上限 + 加碼3%每季上限1000元)";
-    var rewardMoney = 0;
-    var capWarning = "";
+  if(document.getElementById("kumamon").checked){
 
-    if (scene.indexOf("paypay") === 0) {
-      rate = 0;
-      note = "主要以 JCB 實體過卡為主，無 PayPay 條碼回饋";
-    } else if (scene === "direct_large") {
-      rate = 3.0;
-      note = "加碼上限 NT$1,000 已額滿，大額溢出部分以基本 3% 無上限計";
-      rewardMoney = amount ? (amount * 0.03) : 0;
-      capWarning = "以無上限基本 3% 計";
-    } else {
-      if (s.is_suica) {
-        rate = 10.0;
-        note = "Apple Pay 儲值滿額享最高 10% (基本3% + 加碼7%每季上限 NT$200)";
-        if (amount) {
-          var base = amount * 0.03;
-          var extra = Math.min(amount * 0.07, 200);
-          rewardMoney = base + extra;
-          if (amount * 0.07 > 200) capWarning = "⚠️ 交通卡加碼 NT$200 已達上限";
-        }
-      } else {
-        rate = 6.0;
-        note = "實體單筆滿千登錄享 6% (基本3%無上限 + 加碼3%每季上限 NT$1,000，刷 NT$33,333 封頂)";
-        if (amount) {
-          var base = amount * 0.03;
-          var extra = Math.min(amount * 0.03, 1000);
-          rewardMoney = base + extra;
-          if (amount * 0.03 > 1000) capWarning = "⚠️ 加碼 NT$1,000 已達上限，溢出以 3% 計";
-        }
+    var kumaRate = 0;
+    var kumaReward = 0;
+    var kumaFee = 0;
+    var kumaNet = 0;
+    var kumaNote = "";
+    var kumaWarning = "";
+
+
+    /* -------------------------
+       PayPay
+    ------------------------- */
+
+    if(scene.indexOf("paypay") === 0){
+
+      kumaRate = 3.5;
+
+      /*
+        官方：
+        3.5%現金回饋
+        每季每歸戶上限100元
+        另免1.5%國外交易服務費
+      */
+
+      if(amount){
+
+        kumaReward =
+          Math.min(amount * 0.035,100);
+
+        kumaFee = 0;
+
+        kumaNet = kumaReward;
+
       }
+
+      kumaNote =
+        "玉山 Wallet 綁熊本熊卡於日本 PayPay 消費，3.5%現金回饋＋免1.5%國外交易服務費。";
+
+      kumaWarning =
+        "⚠️ 3.5%回饋每季每歸戶上限 NT$100。";
+
     }
-    list.push({ name: "富邦 J 卡", rate: rate, note: note, money: rewardMoney, capWarning: capWarning });
+
+
+    /* -------------------------
+       一般直刷
+    ------------------------- */
+
+    else{
+
+      if(shop.kumamonSpecial){
+
+        kumaRate = 8.5;
+
+        var kumaBase =
+          amount * 0.025;
+
+        var kumaExtra =
+          Math.min(amount * 0.06,500);
+
+        kumaReward =
+          amount ?
+          kumaBase + kumaExtra :
+          0;
+
+        kumaFee =
+          amount * 0.015;
+
+        kumaNet =
+          kumaReward - kumaFee;
+
+        kumaNote =
+          "指定日本商店最高8.5%：基本2.5%＋6%加碼。需完成活動登錄，且6%加碼每期每歸戶上限NT$500。";
+
+        if(amount >= 8333.34){
+
+          kumaWarning =
+            "⚠️ 刷超過約 NT$8,333 後，6%加碼已封頂，後續消費只剩基本2.5%。";
+
+        }
+
+      }else{
+
+        kumaRate = 2.5;
+
+        kumaReward =
+          amount * 0.025;
+
+        kumaFee =
+          amount * 0.015;
+
+        kumaNet =
+          kumaReward - kumaFee;
+
+        kumaNote =
+          "日本一般消費基本2.5%，另收1.5%國外交易服務費。";
+
+        if(shop.isConvenience){
+
+          kumaNote +=
+            " 日本便利商店可視為一般日本消費。";
+
+        }
+
+      }
+
+    }
+
+
+    results.push({
+
+      name:"玉山熊本熊雙幣卡",
+
+      rate:kumaRate,
+
+      reward:kumaReward,
+
+      fee:kumaFee,
+
+      net:kumaNet,
+
+      note:kumaNote,
+
+      warning:kumaWarning,
+
+      usable:kumaRate > 0
+
+    });
+
   }
 
-  var out = document.getElementById("out");
-  if (list.length === 0) {
-    out.innerHTML = '<div class="card warn">⚠ 請至少勾選一張你持有的信用卡！</div>';
+
+  /* =====================================================
+     台新 Richart / 玫瑰
+  ===================================================== */
+
+  if(document.getElementById("richart").checked){
+
+    var richRate = 0;
+    var richReward = 0;
+    var richFee = 0;
+    var richNet = 0;
+    var richNote = "";
+    var richWarning = "";
+
+
+    /* -------------------------
+       PayPay
+    ------------------------- */
+
+    if(scene.indexOf("paypay") === 0){
+
+      richRate = 3.8;
+
+      if(amount){
+
+        richReward =
+          amount * 0.038;
+
+        /*
+          台新 Pay+ 日本交易免1.5%
+        */
+
+        richFee = 0;
+
+        richNet =
+          richReward;
+
+      }
+
+      richNote =
+        "台新 Pay+ 綁定 Richart 卡，切換「Pay著刷」於日本 PayPay 消費最高3.8%台新Point。";
+
+      richWarning =
+        "👑 PayPay 大額推薦。台新 Pay+ 單筆交易上限為 NT$50,000。";
+
+    }
+
+
+    /* -------------------------
+       一般直刷
+    ------------------------- */
+
+    else{
+
+      richRate = 3.3;
+
+      richReward =
+        amount * 0.033;
+
+      richFee =
+        amount * 0.015;
+
+      richNet =
+        richReward - richFee;
+
+      richNote =
+        "一般日本實體消費以 Richart 目前「玩旅刷」最高3.3%計算，實際需依當期方案與銀行認列。";
+
+      if(scene === "direct_large"){
+
+        richNote =
+          "大額直刷可切換 Richart「大筆刷」方案，最高3.3%，實際適用通路依台新公告。";
+
+      }
+
+    }
+
+
+    results.push({
+
+      name:"台新 Richart / 玫瑰卡",
+
+      rate:richRate,
+
+      reward:richReward,
+
+      fee:richFee,
+
+      net:richNet,
+
+      note:richNote,
+
+      warning:richWarning,
+
+      usable:richRate > 0
+
+    });
+
+  }
+
+
+  /* =====================================================
+     富邦 J 卡
+  ===================================================== */
+
+  if(document.getElementById("jfubon").checked){
+
+    var jRate = 0;
+    var jReward = 0;
+    var jFee = 0;
+    var jNet = 0;
+    var jNote = "";
+    var jWarning = "";
+
+
+    /* -------------------------
+       PayPay
+    ------------------------- */
+
+    if(scene.indexOf("paypay") === 0){
+
+      jRate = 0;
+
+      jNote =
+        "富邦 J 卡不列入本推薦器的日本 PayPay 回饋方案，改用實體刷卡或其他適用支付方式。";
+
+      jReward = 0;
+      jFee = 0;
+      jNet = 0;
+
+    }
+
+
+    /* -------------------------
+       Suica / PASMO / ICOCA
+    ------------------------- */
+
+    else if(shop.isSuica){
+
+      /*
+        官方：
+        Apple Pay 綁 J 卡
+        單筆滿 NT$2,000
+        最高10%
+        基本3% + 加碼7%
+        加碼上限200
+      */
+
+      if(amount >= 2000){
+
+        jRate = 10;
+
+        var jBase =
+          amount * 0.03;
+
+        var jExtra =
+          Math.min(amount * 0.07,200);
+
+        jReward =
+          jBase + jExtra;
+
+        jFee =
+          amount * 0.015;
+
+        jNet =
+          jReward - jFee;
+
+        jNote =
+          "Apple Pay 綁富邦 J 卡儲值日本 Suica / PASMO / ICOCA，單筆滿NT$2,000，最高10%。";
+
+        jWarning =
+          "⚠️ 7%加碼每戶上限NT$200，需登錄且名額有限。";
+
+      }else{
+
+        jRate = 3;
+
+        jReward =
+          amount * 0.03;
+
+        jFee =
+          amount * 0.015;
+
+        jNet =
+          jReward - jFee;
+
+        jNote =
+          "未達交通卡活動單筆NT$2,000門檻，先以日本一般消費最高3%計算。";
+
+        jWarning =
+          "⚠️ 若要拿最高10%，單筆需滿NT$2,000並完成活動登錄。";
+
+      }
+
+    }
+
+
+    /* -------------------------
+       便利商店
+    ------------------------- */
+
+    else if(shop.isConvenience){
+
+      jRate = 0;
+
+      jNote =
+        "富邦 J 卡日本一般消費規則排除便利商店消費，因此本推薦器不列入日本3%回饋。";
+
+      jReward = 0;
+      jFee = 0;
+      jNet = 0;
+
+    }
+
+
+    /* -------------------------
+       一般日本實體
+    ------------------------- */
+
+    else{
+
+      /*
+        單筆滿1000
+        基本3%
+        加碼3%
+        每季加碼上限1000
+      */
+
+      if(amount >= 1000){
+
+        jRate = 6;
+
+        var jBase2 =
+          amount * 0.03;
+
+        var jExtra2 =
+          Math.min(amount * 0.03,1000);
+
+        jReward =
+          jBase2 + jExtra2;
+
+        jFee =
+          amount * 0.015;
+
+        jNet =
+          jReward - jFee;
+
+        jNote =
+          "日本實體消費單筆滿NT$1,000，最高6%：基本3%＋加碼3%。需完成當季登錄。";
+
+        if(amount >= 33333.34){
+
+          jWarning =
+            "⚠️ 加碼3%每季每戶上限NT$1,000，刷超過約NT$33,333後，加碼部分不再增加。";
+
+        }
+
+      }else{
+
+        jRate = 3;
+
+        jReward =
+          amount * 0.03;
+
+        jFee =
+          amount * 0.015;
+
+        jNet =
+          jReward - jFee;
+
+        jNote =
+          "未達單筆NT$1,000門檻，無法取得3%加碼，先以日本一般消費最高3%計算。";
+
+        jWarning =
+          "⚠️ 單筆滿NT$1,000並完成登錄才可取得最高6%。";
+
+      }
+
+    }
+
+
+    results.push({
+
+      name:"富邦 J 卡",
+
+      rate:jRate,
+
+      reward:jReward,
+
+      fee:jFee,
+
+      net:jNet,
+
+      note:jNote,
+
+      warning:jWarning,
+
+      usable:jRate > 0
+
+    });
+
+  }
+
+
+  return {
+
+    shop:shop,
+
+    scene:scene,
+
+    amount:amount,
+
+    results:results
+
+  };
+
+}
+
+
+/* =========================================================
+   最佳推薦
+========================================================= */
+
+function runCalculation(){
+
+  var data =
+    buildResults();
+
+  var amount =
+    data.amount;
+
+  var list =
+    data.results;
+
+
+  var out =
+    document.getElementById("out");
+
+
+  if(list.length === 0){
+
+    out.innerHTML =
+      '<div class="card warn">⚠️ 請至少勾選一張你持有的信用卡！</div>';
+
     return;
+
   }
 
-  // 排序高至低
-  list.sort(function(a, b) {
-    if (amount > 0) return b.money - a.money;
+
+  /*
+    有金額：
+    用「實際回饋 - 海外手續費」排序
+
+    沒金額：
+    用名目回饋率排序
+  */
+
+  list.sort(function(a,b){
+
+    if(amount > 0){
+
+      return b.net - a.net;
+
+    }
+
     return b.rate - a.rate;
+
   });
 
-  var html = '<div class="card"><h3 style="margin-bottom:12px">🎯 「' + s.name + '」最佳推薦排行</h3>';
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var isBest = (i === 0 && item.rate > 0);
-    
-    html += '<div class="res-card ' + (isBest ? 'best' : '') + '">';
-    if (isBest) html += '<span class="badge">🏆 最佳首選</span>';
-    html += '<div class="res-top">';
-    html += '<b>' + item.name + '</b>';
-    html += '<span class="rate">' + (item.rate > 0 ? item.rate.toFixed(1) + '%' : '不適用') + '</span>';
-    html += '</div>';
-    if (amount && item.rate > 0) {
-      html += '<div class="res-money">實拿預估：NT$ ' + Math.round(item.money) + ' 回饋</div>';
+
+  var usableList =
+    list.filter(function(item){
+
+      return item.usable;
+
+    });
+
+
+  var best =
+    usableList.length ?
+    usableList[0] :
+    null;
+
+
+  var html =
+    '<div class="card">';
+
+  html +=
+    '<h3 style="margin-bottom:12px">🎯 「' +
+    data.shop.name +
+    '」最佳推薦</h3>';
+
+
+  if(best){
+
+    html +=
+      '<div class="info">';
+
+    html +=
+      '目前推薦：<b>' +
+      best.name +
+      '</b><br>';
+
+    if(amount){
+
+      html +=
+        '預估淨效益：<b>' +
+        money(best.net) +
+        '</b>';
+
+    }else{
+
+      html +=
+        '名目最高回饋：<b>' +
+        best.rate.toFixed(1) +
+        '%</b>';
+
     }
-    if (item.capWarning) {
-      html += '<div class="cap-warn">' + item.capWarning + '</div>';
-    }
-    html += '<div class="tips">' + item.note + '</div>';
-    html += '</div>';
+
+    html +=
+      '</div>';
+
   }
-  html += '</div>';
-  out.innerHTML = html;
+
+
+  for(var i=0;i<list.length;i++){
+
+    var item =
+      list[i];
+
+    var isBest =
+      best &&
+      item.name === best.name;
+
+
+    html +=
+      '<div class="res-card ' +
+      (isBest ? 'best' : '') +
+      '">';
+
+
+    if(isBest){
+
+      html +=
+        '<span class="badge">🏆 最佳首選</span>';
+
+    }
+
+
+    html +=
+      '<div class="res-top">';
+
+    html +=
+      '<b>' +
+      item.name +
+      '</b>';
+
+    html +=
+      '<span class="rate">';
+
+    if(item.rate > 0){
+
+      html +=
+        item.rate.toFixed(1) +
+        '%';
+
+    }else{
+
+      html +=
+        '不適用';
+
+    }
+
+    html +=
+      '</span>';
+
+    html +=
+      '</div>';
+
+
+    if(amount && item.rate > 0){
+
+      html +=
+        '<div class="res-money">' +
+        '預估回饋：' +
+        money(item.reward) +
+        '</div>';
+
+
+      if(item.fee > 0){
+
+        html +=
+          '<div class="fee">' +
+          '估算海外交易手續費：-' +
+          money(item.fee) +
+          '</div>';
+
+      }else{
+
+        html +=
+          '<div class="fee">' +
+          '估算海外交易手續費：NT$ 0（活動免收）' +
+          '</div>';
+
+      }
+
+
+      html +=
+        '<div class="net-money">' +
+        '💰 扣除手續費後：約 ' +
+        money(item.net) +
+        '</div>';
+
+    }
+
+
+    if(item.warning){
+
+      html +=
+        '<div class="cap-warn">' +
+        item.warning +
+        '</div>';
+
+    }
+
+
+    html +=
+      '<div class="tips">' +
+      item.note +
+      '</div>';
+
+
+    html +=
+      '</div>';
+
+  }
+
+
+  html +=
+    '<div class="divider"></div>';
+
+
+  html +=
+    '<div class="small-note">';
+
+  html +=
+    '※ 本工具以2026年10月目前公開活動規則試算。';
+
+  html +=
+    '<br>※ 回饋活動通常需要登錄、切換權益或符合指定支付方式，實際回饋仍以銀行最終認列為準。';
+
+  html +=
+    '<br>※ 海外交易手續費以1.5%作估算，若該活動明確免收則以0計。';
+
+  html +=
+    '<br>※ 「最高回饋」不代表所有消費都能無上限取得該比例。';
+
+  html +=
+    '</div>';
+
+
+  html +=
+    '</div>';
+
+
+  out.innerHTML =
+    html;
+
 }
 
-// 核心安全事件綁定
-function setupEvents() {
-  var shopButtons = document.querySelectorAll(".shop-btn");
-  for (var i = 0; i < shopButtons.length; i++) {
-    shopButtons[i].onclick = function(e) {
-      if (e) e.preventDefault();
-      var key = this.getAttribute("data-key");
-      if (key && shops[key]) {
-        currentShopKey = key;
-        var all = document.querySelectorAll(".shop-btn");
-        for (var j = 0; j < all.length; j++) {
-          all[j].classList.remove("active");
+
+/* =========================================================
+   事件
+========================================================= */
+
+function setupEvents(){
+
+  var shopButtons =
+    document.querySelectorAll(".shop-btn");
+
+
+  for(var i=0;i<shopButtons.length;i++){
+
+    shopButtons[i].onclick =
+      function(e){
+
+        if(e){
+          e.preventDefault();
         }
-        this.classList.add("active");
-        runCalculation();
-      }
-    };
+
+
+        var key =
+          this.getAttribute("data-key");
+
+
+        if(key && shops[key]){
+
+          currentShopKey =
+            key;
+
+
+          var all =
+            document.querySelectorAll(".shop-btn");
+
+
+          for(var j=0;j<all.length;j++){
+
+            all[j].classList.remove("active");
+
+          }
+
+
+          this.classList.add("active");
+
+
+          runCalculation();
+
+        }
+
+      };
+
   }
 
-  var calcBtn = document.getElementById("calcBtn");
-  if (calcBtn) calcBtn.onclick = runCalculation;
 
-  var amtInput = document.getElementById("amount");
-  if (amtInput) amtInput.oninput = runCalculation;
+  var calcBtn =
+    document.getElementById("calcBtn");
 
-  var checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
-  for (var c = 0; c < checkboxes.length; c++) {
-    checkboxes[c].onchange = runCalculation;
+
+  if(calcBtn){
+
+    calcBtn.onclick =
+      runCalculation;
+
   }
 
-  var radios = document.querySelectorAll('input[name="scene"]');
-  for (var r = 0; r < radios.length; r++) {
-    radios[r].onchange = runCalculation;
+
+  var amtInput =
+    document.getElementById("amount");
+
+
+  if(amtInput){
+
+    amtInput.oninput =
+      runCalculation;
+
   }
 
-  var bannerBtn = document.getElementById("bannerBtn");
-  if (bannerBtn) bannerBtn.onclick = nextDialogue;
 
-  var talkBtn = document.getElementById("talkBtn");
-  if (talkBtn) talkBtn.onclick = nextDialogue;
+  var checkboxes =
+    document.querySelectorAll(
+      '.check-item input[type="checkbox"]'
+    );
+
+
+  for(var c=0;c<checkboxes.length;c++){
+
+    checkboxes[c].onchange =
+      runCalculation;
+
+  }
+
+
+  var radios =
+    document.querySelectorAll(
+      'input[name="scene"]'
+    );
+
+
+  for(var r=0;r<radios.length;r++){
+
+    radios[r].onchange =
+      runCalculation;
+
+  }
+
+
+  var bannerBtn =
+    document.getElementById("bannerBtn");
+
+
+  if(bannerBtn){
+
+    bannerBtn.onclick =
+      nextDialogue;
+
+  }
+
+
+  var talkBtn =
+    document.getElementById("talkBtn");
+
+
+  if(talkBtn){
+
+    talkBtn.onclick =
+      function(e){
+
+        e.stopPropagation();
+
+        nextDialogue();
+
+      };
+
+  }
+
 
   runCalculation();
+
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", setupEvents);
-} else {
+
+if(document.readyState === "loading"){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    setupEvents
+  );
+
+}else{
+
   setupEvents();
+
 }
+
 </script>
+
 </body>
 </html>
