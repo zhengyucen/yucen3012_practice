@@ -5,91 +5,317 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>🇯🇵 日本刷卡與PayPay最佳化推薦</title>
 <style>
-:root{
-  --primary:#0071e3;
-  --bg:#f5f5f7;
-  --card-bg:#fff;
-  --border:#e5e5ea;
-  --text:#1d1d1f;
-}
+:root{--primary:#0071e3;--bg:#f5f5f7;--card:#fff;--border:#e5e5ea;--text:#1d1d1f}
 *{box-sizing:border-box}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Noto Sans TC",sans-serif;
-  background:var(--bg);
-  margin:0;
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-}
-main{max-width:680px;margin:auto;padding:16px 16px 60px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;background:var(--bg);margin:0;color:var(--text);padding:14px}
+main{max-width:640px;margin:auto;padding-bottom:50px}
+.banner{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,0.08);background:#fff;margin-bottom:12px;cursor:pointer;position:relative}
+.banner img{width:100%;max-height:220px;object-fit:cover;display:block}
+.tag{position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,0.65);color:#fff;padding:4px 10px;border-radius:16px;font-size:11px}
+.bubble{background:#f0f7ff;border:1px solid #cce5ff;border-radius:12px;padding:12px;font-size:13px;color:#004085;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.talk-btn{background:#fff;border:1px solid #b8daff;color:#0071e3;padding:5px 9px;border-radius:8px;font-size:12px;cursor:pointer;white-space:nowrap}
+.card{background:var(--card);border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+h3{font-size:15px;margin:0 0 10px;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.check-item{display:flex;align-items:center;gap:8px;background:#f9f9fb;padding:10px;border-radius:10px;font-size:13px;border:1px solid var(--border);cursor:pointer}
+.check-item input{width:16px;height:16px}
+.scene-btn{display:flex;flex-direction:column;padding:10px;background:#f9f9fb;border:1.5px solid var(--border);border-radius:10px;cursor:pointer}
+.scene-btn:has(input:checked){background:#fff;border-color:var(--primary)}
+.scene-btn input{display:none}
+.scene-title{font-size:13px;font-weight:700}
+.scene-sub{font-size:11px;color:#888;margin-top:2px}
+.cat-title{font-size:11.5px;font-weight:700;color:#888;margin:12px 0 6px}
+.btn-grid{display:flex;flex-wrap:wrap;gap:6px}
+.shop-btn{border:1px solid var(--border);background:#f9f9fb;border-radius:16px;padding:8px 12px;font-size:13px;cursor:pointer}
+.shop-btn.active{background:var(--primary)!important;color:#fff!important;border-color:var(--primary)!important;font-weight:700}
+input.amt{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:15px;margin-top:12px;outline:none}
+.main-btn{width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:700;background:#111;color:#fff;cursor:pointer;margin-top:12px}
+.res-card{padding:12px;border-radius:12px;background:#f9f9fb;margin-top:10px;border:1px solid var(--border)}
+.res-card.best{background:#f0f7ff;border:2px solid var(--primary)}
+.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700;background:var(--primary);color:#fff;margin-bottom:4px}
+.res-top{display:flex;justify-content:space-between;align-items:baseline}
+.rate{font-size:22px;font-weight:800;color:var(--primary)}
+.tips{font-size:12px;color:#666;margin-top:4px}
+.warn{background:#fff8e6;border:1px solid #ffe199;color:#7a5800;padding:12px;border-radius:10px;font-size:13px}
+</style>
+</head>
+<body>
+<main>
 
-/* 頂部合照橫幅 */
-.banner-container{
-  width:100%;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 3px 12px rgba(0,0,0,0.06);
-  border:1px solid rgba(0,0,0,0.05);
-  background:#fff;
-  margin-bottom:12px;
-  cursor:pointer;
-  position:relative;
-}
-.banner-container:active{transform:scale(0.98)}
-.banner-img{
-  width:100%;
-  max-height:240px;
-  object-fit:cover;
-  display:block;
-}
-.banner-tag{
-  position:absolute;
-  bottom:10px;
-  right:12px;
-  background:rgba(0,0,0,0.65);
-  color:#fff;
-  backdrop-filter:blur(6px);
-  padding:5px 12px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:600;
+<div class="banner" onclick="nextDialogue()">
+  <img src="team.jpg.JPG" alt="陪伴合照" onerror="this.onerror=null;this.src='team.jpg';">
+  <div class="tag">點擊換台詞 💬</div>
+</div>
+
+<div class="bubble">
+  <span id="speech-text">雪乃：「出國消費請務必確認回饋上限與請款規則，不要大意了喔。」</span>
+  <button type="button" class="talk-btn" onclick="nextDialogue()">換一句</button>
+</div>
+
+<div class="card">
+  <h3>① 我持有的信用卡</h3>
+  <div class="grid2">
+    <label class="check-item"><input type="checkbox" id="cube" checked onchange="calc()"> 國泰 CUBE 卡</label>
+    <label class="check-item"><input type="checkbox" id="kumamon" checked onchange="calc()"> 玉山熊本熊雙幣卡</label>
+    <label class="check-item"><input type="checkbox" id="richart" checked onchange="calc()"> 台新 Richart / 玫瑰</label>
+    <label class="check-item"><input type="checkbox" id="jfubon" checked onchange="calc()"> 富邦 J 卡</label>
+  </div>
+</div>
+
+<div class="card">
+  <h3>② 支付情境</h3>
+  <div class="grid2">
+    <label class="scene-btn">
+      <input type="radio" name="scene" value="direct_normal" checked onchange="calc()">
+      <span class="scene-title">💳 一般直刷</span>
+      <span class="scene-sub">實體感應 / 中低額</span>
+    </label>
+    <label class="scene-btn">
+      <input type="radio" name="scene" value="direct_large" onchange="calc()">
+      <span class="scene-title">🛍️ 大額直刷</span>
+      <span class="scene-sub">電器高單價 / 防封頂</span>
+    </label>
+    <label class="scene-btn">
+      <input type="radio" name="scene" value="paypay_normal" onchange="calc()">
+      <span class="scene-title">📱 一般 PayPay</span>
+      <span class="scene-sub">小店掃碼 / 玉山・街口</span>
+    </label>
+    <label class="scene-btn">
+      <input type="radio" name="scene" value="paypay_large" onchange="calc()">
+      <span class="scene-title">💎 大額 PayPay</span>
+      <span class="scene-sub">防點數上限溢出</span>
+    </label>
+  </div>
+</div>
+
+<div class="card">
+  <h3>③ 選擇店家 (點擊直接切換)</h3>
+
+  <div class="cat-title">🚇 交通卡與超商 (富邦 J 卡 10% 專區)</div>
+  <div class="btn-grid">
+    <button type="button" class="shop-btn" id="btn-suica" onclick="pick('suica')">Suica/PASMO (富邦J 10%)</button>
+    <button type="button" class="shop-btn" id="btn-conveni" onclick="pick('conveni')">三大便利超商</button>
+  </div>
+
+  <div class="cat-title">🛒 家電量販</div>
+  <div class="btn-grid">
+    <button type="button" class="shop-btn active" id="btn-biccamera" onclick="pick('biccamera')">BicCamera</button>
+    <button type="button" class="shop-btn" id="btn-yodobashi" onclick="pick('yodobashi')">友都八喜</button>
+    <button type="button" class="shop-btn" id="btn-edion" onclick="pick('edion')">愛電王</button>
+  </div>
+
+  <div class="cat-title">💊 藥妝連鎖</div>
+  <div class="btn-grid">
+    <button type="button" class="shop-btn" id="btn-matsumoto" onclick="pick('matsumoto')">松本清</button>
+    <button type="button" class="shop-btn" id="btn-daikoku" onclick="pick('daikoku')">大國藥妝</button>
+    <button type="button" class="shop-btn" id="btn-tsuruha" onclick="pick('tsuruha')">鶴羽藥妝</button>
+    <button type="button" class="shop-btn" id="btn-donki" onclick="pick('donki')">唐吉訶德</button>
+    <button type="button" class="shop-btn" id="btn-sugi" onclick="pick('sugi')">杉藥局</button>
+  </div>
+
+  <div class="cat-title">👕 服飾雜貨</div>
+  <div class="btn-grid">
+    <button type="button" class="shop-btn" id="btn-uniqlo" onclick="pick('uniqlo')">UNIQLO</button>
+    <button type="button" class="shop-btn" id="btn-gu" onclick="pick('gu')">GU</button>
+    <button type="button" class="shop-btn" id="btn-muji" onclick="pick('muji')">無印良品</button>
+    <button type="button" class="shop-btn" id="btn-loft" onclick="pick('loft')">Loft</button>
+    <button type="button" class="shop-btn" id="btn-abcmart" onclick="pick('abcmart')">ABC-MART</button>
+  </div>
+
+  <div class="cat-title">🎮 潮流動漫</div>
+  <div class="btn-grid">
+    <button type="button" class="shop-btn" id="btn-pokemon" onclick="pick('pokemon')">Pokémon Center</button>
+    <button type="button" class="shop-btn" id="btn-sanrio" onclick="pick('sanrio')">三麗鷗</button>
+    <button type="button" class="shop-btn" id="btn-kiddyland" onclick="pick('kiddyland')">Kiddy Land</button>
+  </div>
+
+  <div class="cat-title">🍜 連鎖美食</div>
+  <div class="btn-grid">
+    <button type="button" class="shop-btn" id="btn-ichiran" onclick="pick('ichiran')">一蘭拉麵</button>
+    <button type="button" class="shop-btn" id="btn-sushiro" onclick="pick('sushiro')">壽司郎</button>
+    <button type="button" class="shop-btn" id="btn-jojoen" onclick="pick('jojoen')">敘敘苑燒肉</button>
+    <button type="button" class="shop-btn" id="btn-matsuya" onclick="pick('matsuya')">松屋 / すき家</button>
+  </div>
+
+  <div class="cat-title">📍 一般通路</div>
+  <div class="btn-grid">
+    <button type="button" class="shop-btn" id="btn-other" onclick="pick('other')">一般店家 / 攤商 (無特店)</button>
+  </div>
+
+  <input id="amount" class="amt" type="number" placeholder="消費金額 (台幣 NT$，可不填)" oninput="calc()">
+  <button type="button" class="main-btn" onclick="calc()">🔍 立即計算最佳回饋</button>
+</div>
+
+<div id="out"></div>
+
+</main>
+
+<script>
+var dialogues = [
+  "雪乃：「出國消費請務必確認回饋上限與請款規則，不要大意了喔。」",
+  "雪乃：「富邦 J 卡在交通卡儲值最高達 10%，大額消費則請務必防範加碼封頂。」",
+  "結衣：「哇！去超商買宵夜或是加值西瓜卡都超方便的！買好吃的最開心了～！」",
+  "結衣：「藥妝店排隊好長喔～還好用按鈕點一下就知道刷哪張，超厲害的！」",
+  "彩羽：「呼呼～前輩，替我買伴手禮的時候，挑回饋最高的那張刷就對啦♪」",
+  "彩羽：「看到 10% 可別高興得太早喔？加碼額度要是刷爆了，我可是會笑前輩的喔～」"
+];
+
+var curTalk = 0;
+function nextDialogue() {
+  curTalk = (curTalk + 1) % dialogues.length;
+  document.getElementById("speech-text").innerText = dialogues[curTalk];
 }
 
-/* 互動氣泡與換台詞按鈕 */
-.speech-box{
-  background:#f0f7ff;
-  border:1px solid #cce5ff;
-  border-radius:14px;
-  padding:12px 14px;
-  font-size:13.5px;
-  color:#004085;
-  margin-bottom:14px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  line-height:1.45;
-}
-.speech-content{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex:1;
-}
-.change-talk-btn{
-  background:#fff;
-  border:1px solid #b8daff;
-  color:#0071e3;
-  padding:6px 10px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:600;
-  white-space:nowrap;
-  cursor:pointer;
-}
-.change-talk-btn:active{
-  background:#0071e3;
-  color:#fff;
+var shops = {
+  suica: { name: "Suica / PASMO 交通卡加值", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 10.0, jfubon_note: "Apple Pay 綁 J 卡儲值滿額享最高 10% (需登錄/有上限)" },
+  conveni: { name: "三大便利超商", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "實體消費享一般消費 3%" },
+  biccamera: { name: "BicCamera", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  yodobashi: { name: "友都八喜", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  edion: { name: "愛電王", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  matsumoto: { name: "松本清", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  daikoku: { name: "大國藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  tsuruha: { name: "鶴羽藥妝", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  donki: { name: "唐吉訶德", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  sugi: { name: "杉藥局", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  uniqlo: { name: "UNIQLO", cube: 5.0, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  gu: { name: "GU", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  muji: { name: "無印良品", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  loft: { name: "Loft", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  abcmart: { name: "ABC-MART", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  pokemon: { name: "Pokémon Center", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  sanrio: { name: "三麗鷗", cube: 5.0, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  kiddyland: { name: "Kiddy Land", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  ichiran: { name: "一蘭拉麵", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  sushiro: { name: "壽司郎", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  jojoen: { name: "敘敘苑燒肉", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  matsuya: { name: "松屋 / すき家", cube: 3.3, kumamon: 8.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" },
+  other: { name: "一般店家 / 攤商", cube: 3.3, kumamon: 2.5, richart: 3.8, jfubon: 3.0, jfubon_note: "日本實體一般消費最高 3%" }
+};
+
+var currentShop = "biccamera";
+
+function pick(key) {
+  currentShop = key;
+  var all = document.getElementsByClassName("shop-btn");
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove("active");
+  }
+  var activeBtn = document.getElementById("btn-" + key);
+  if (activeBtn) {
+    activeBtn.classList.add("active");
+  }
+  calc();
 }
 
-h1{font-size:22px;margin:6px 0 4px;font-weight:700}
-.desc{color:#86868
+function calc() {
+  var s = shops[currentShop] || shops.biccamera;
+  
+  var scenes = document.getElementsByName("scene");
+  var scene = "direct_normal";
+  for (var i = 0; i < scenes.length; i++) {
+    if (scenes[i].checked) {
+      scene = scenes[i].value;
+      break;
+    }
+  }
+
+  var amtVal = document.getElementById("amount").value;
+  var amount = parseFloat(amtVal) || 0;
+  var list = [];
+
+  // 1. 國泰 CUBE
+  if (document.getElementById("cube").checked) {
+    var rate = s.cube;
+    var note = "日本賞權益/切換即時生效，回饋無上限";
+    if (scene.indexOf("paypay") === 0) {
+      rate = 0;
+      note = "不支援日本 PayPay 條碼優惠 (建議直刷)";
+    } else if (scene === "direct_large") {
+      note = "小樹點回饋無上限，大額電器首選";
+    }
+    list.push({ name: "國泰 CUBE 卡", rate: rate, note: note });
+  }
+
+  // 2. 玉山熊本熊
+  if (document.getElementById("kumamon").checked) {
+    var rate = s.kumamon;
+    var note = "免 1.5% 交易手續費 + 指定通路加碼";
+    if (scene === "direct_large") {
+      rate = 2.5;
+      note = "加碼回饋上限易滿，大額溢出部分以基本 2.5% 計算";
+    } else if (scene === "paypay_normal") {
+      rate = 6.5;
+      note = "玉山 Wallet 綁定掃 PayPay，免手續費享高額加碼";
+    } else if (scene === "paypay_large") {
+      rate = 2.5;
+      note = "PayPay 活動加碼額度封頂後降為 2.5% 基本回饋";
+    }
+    list.push({ name: "玉山熊本熊雙幣卡", rate: rate, note: note });
+  }
+
+  // 3. 台新 Richart / 玫瑰
+  if (document.getElementById("richart").checked) {
+    var rate = s.richart;
+    var note = "海外日韓指定方案 3.8% 台新 Point 回饋無上限";
+    if (scene === "paypay_normal") {
+      rate = 4.5;
+      note = "街口支付綁 Richart/玫瑰掃 PayPay，免手續費";
+    } else if (scene === "paypay_large") {
+      rate = 2.0;
+      note = "街口跨境掃碼有上限限制，大額建議切換為直刷";
+    } else if (scene === "direct_large") {
+      rate = 3.8;
+      note = "大筆刷方案 3.8% 無上限，大額採購最穩首選";
+    }
+    list.push({ name: "台新 Richart / 玫瑰卡", rate: rate, note: note });
+  }
+
+  // 4. 富邦 J 卡
+  if (document.getElementById("jfubon").checked) {
+    var rate = s.jfubon;
+    var note = s.jfubon_note;
+    if (scene.indexOf("paypay") === 0) {
+      rate = 0;
+      note = "主要以 JCB 實體感應為主，無 PayPay 條碼回饋";
+    } else if (scene === "direct_large") {
+      rate = 3.0;
+      note = "大額消費加碼額度易額滿，大額以基本 3% 計算";
+    }
+    list.push({ name: "富邦 J 卡", rate: rate, note: note });
+  }
+
+  var out = document.getElementById("out");
+  if (list.length === 0) {
+    out.innerHTML = '<div class="card warn">⚠️ 請至少勾選一張你持有的信用卡！</div>';
+    return;
+  }
+
+  list.sort(function(a, b) { return b.rate - a.rate; });
+
+  var html = '<div class="card"><h3 style="margin-bottom:12px">🎯 「' + s.name + '」最佳推薦排行</h3>';
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var isBest = (i === 0 && item.rate > 0);
+    var money = amount ? (amount * item.rate / 100).toFixed(0) : 0;
+    
+    html += '<div class="res-card ' + (isBest ? 'best' : '') + '">';
+    if (isBest) html += '<span class="badge">🏆 最佳首選</span>';
+    html += '<div class="res-top">';
+    html += '<b>' + item.name + '</b>';
+    html += '<span class="rate">' + (item.rate > 0 ? item.rate + '%' : '不適用') + '</span>';
+    html += '</div>';
+    if (amount && item.rate > 0) {
+      html += '<div style="font-weight:700;color:#2c3e50;margin-top:4px">預估拿約 NT$ ' + money + ' 回饋</div>';
+    }
+    html += '<div class="tips">' + item.note + '</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  out.innerHTML = html;
+}
+
+// 載入即時運算
+calc();
+</script>
+</body>
+</html>
